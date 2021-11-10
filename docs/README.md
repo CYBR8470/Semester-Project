@@ -38,3 +38,8 @@
 - TBD
 
 ---
+## 8. As a player, I want a chat function so that I can communicate with the other players in the game while in the app.
+### Acceptance Criteria
+- TBD
+
+---
