@@ -4,5 +4,11 @@
     </head>
     <body>
         <h1><center>YAHTZEE!!</center></h1>
+        {% if authenticated == 'True' %}
+        <a href="{% url 'game' 'host' %}">Host Game |</a>
+        <a href="{% url 'game' 'join' %}">Join Game |</a>
+        {% endif %}
+        <a href="/login">Login |</a>
+        <a href="/register">Register |</a>
     </body>
 </html>

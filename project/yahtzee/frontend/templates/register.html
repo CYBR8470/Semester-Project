@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <title>Register</title>
+    </head>
+    <body>
+        <center><h1>REGISTER</h1></center>
+        <div>
+            <form method="POST">
+                {% csrf_token %}
+                <label for="username">Username</label>
+                <input type="text" name="username" class="form-control" required="required">
+    
+                <label for="email">Email</label>
+                <input type="text" name="email" class="form-control" required="required">
+    
+                <label for="password1">Password</label>
+                <input type="password" name="password1" class="form-control" required="required">
+    
+                <label for="password2">Confirm Password</label>
+                <input type="password" name="password2" class="form-control" required="required">
+    
+                <button type="submit">Register</button>
+            </form>
+        </div>
+        
+        <center><p>If you already have an account, <a href="/login">login</a> instead.</p></center>
+    </body>
+</html>

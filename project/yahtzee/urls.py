@@ -15,9 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import url, include
+from django.contrib.auth import views as auth_views
 from .frontend import views
 
 urlpatterns = [
-    path('', views.index),
+    path('', views.index, name='index'),
+    path('game/<str:choice>', views.game, name='game'),
+    path('accounts/', include('django.contrib.auth.urls')),
+    # path('accounts/login', auth_views.LoginView.as_view(template_name='login.html')),
+    # path('login', views.loginUser, name='login'),
+    path('register', views.register_request, name='register'),
     path('admin/', admin.site.urls),
 ]
