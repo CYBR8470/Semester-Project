@@ -1,4 +1,4 @@
-# ***User Roles*** 
+# ***User Stories*** 
 ---
 ## 1. As a player, I want to be able to log in so I can host or join a game.
 ### Acceptance Criteria  
@@ -12,12 +12,12 @@
 - Logged-in player can click host, backend generates a new game model and redirects player to the new game page.
 
 --- 
-## 3. As a bad actor, I want to spam host requests so that I can degrade the performance of the service.
+## 3. As a malicious user, I want to spam host requests so that I can degrade the performance of the service.
 ### Acceptance Criteria 
 - Completion of 4
 
 ---
-## 4. As a system administrator, I want to control the creation of new games to prevent spamming.
+## 4. As a game developer, I want to control the creation of new games to prevent spamming.
 ### Acceptance Criteria 
 - When a player creates a new game, the gameid links to the hosting player in a one-to-one relationship.
 - A check mechanism is in place during game creation to ensure a player does not already have a hosted game i.e. gameid=null
@@ -25,22 +25,70 @@
 ---
 ## 5. As a player, I want to be able to join a hosted game so that I can play Yahtzee with others.
 ### Acceptance Criteria
-- TBD
+- Player can click on the join button for a public game and enter directly
+- For a private game, player can enter the proper join code and join a game 
+- Entering an incorrect join code will turn the join code field red and not redirect the player
 
 ---
-## 6. As a bad actor, I want to subvert the join code so that I can join a private game.
+## 6. As a malicious user, I want to subvert the join code so that I can join a private game.
 ### Acceptance Criteria 
 - Completion of 7
 
 ---
-## 7. As a system administrator, I want a mechanism to manage joincode keys to prevent bad actors from joining private games
+## 7. As a game developer, I want a mechanism to manage joincode keys to prevent malicious users from joining private games
 ### Acceptance Criteria
-- TBD
+- Join code mechanism should use accepted open source cryptographic random function
+- Join code should be of sufficient length to deter brute force attacks
+- Join codes should be easy to copy/paste
+- Join codes are not visible for private games
+- Join codes are visible / provided for public games
 
 ---
-## 8. As a player, I want a chat function so that I can communicate with the other players in the game while in the app.
+## 8. As a system administrator, I want to protect login credentials so that credential harvesting is less likely.
 ### Acceptance Criteria
-- TBD
+- Select and integrate a vetted open-source authentication / authorization mechanism
+- Ensure password criteria includes a minimum standard (length, complexity)
+
+---
+# ***Future User Stories***
+---
+## 9. As a game developer, I want to recreate the Yahtzee game steps within the browser so that players can complete a game. 
+### Acceptance Criteria
+- Player has 5 dice
+- First roll randomizes all 5 dice
+- Player may roll up to 3 times before scoring
+- Each die can be saved to prevent rerolling
+- Saved die can also be unsaved to reroll
+- After third roll, all dice are set for scoring
+
+---
+## 10. As a game developer, I want to thoroughly test scoring to ensure players receive the correct score for their dice set.
+### Acceptance Criteria
+- Array of all possible combinations of 5 dice is tested against ruleset
+- Returned values match predicted values for all combinations
+
+---
+## 11. As a player, I want the interface to be intuitive and easy to navigate so that I am likely to play again.
+### Acceptance Criteria
+- HTML, CSS, Javascript recreate mockup layout design and functionality
+- If able, graphics will be integrated for the dice and player avatars.
+
+---
+## 12. As a malicious user, I want to be able to cheat so that I can win every game.
+### Acceptance Criteria
+- Completion of 13 
+
+---
+## 13. As a game developer, I want to prevent cheating so that all players enjoy their game.
+### Acceptance Criteria
+- All values are stored server-side
+- Control logic prevents data manipulation outside the ruleset in story 9.
+- Further criteria may be found as development continues.
+
+---
+## 14. As a player, I want a chat function so that I can communicate with the other players in the game while in the app.
+### Acceptance Criteria
+- This is a push item and will be further evaluated during milestone 2.
 
 ---
 # ***Mockup Design***
