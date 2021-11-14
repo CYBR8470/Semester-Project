@@ -97,7 +97,7 @@
 ---
 ## 15. As a malicious user, I want to be able to cheat so that I can win every game.
 ### Acceptance Criteria
-- Completion of 13 
+- Completion of 16 
 
 ---
 ## 16. As a game developer, I want to prevent cheating so that all players enjoy their game.
