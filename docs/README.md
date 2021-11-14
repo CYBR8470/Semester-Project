@@ -43,3 +43,18 @@
 - TBD
 
 ---
+# ***Mockup Design***
+
+---
+![Login Screen](/docs/login.PNG "Login Screen")
+
+---
+![Host or Join](/docs/select_game.PNG "Host or Join Screen")
+
+---
+![Join](/docs/join.PNG "Join Screen")
+
+---
+![Game](/docs/main.PNG "Game Screen")
+
+---
