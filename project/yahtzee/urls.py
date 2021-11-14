@@ -23,8 +23,6 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('game/<str:choice>', views.game, name='game'),
     path('accounts/', include('django.contrib.auth.urls')),
-    # path('accounts/login', auth_views.LoginView.as_view(template_name='login.html')),
-    # path('login', views.loginUser, name='login'),
-    # path('register', views.register_request, name='register'),
+    path('register', views.register_request, name='register'),
     path('admin/', admin.site.urls),
 ]
