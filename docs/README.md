@@ -50,6 +50,15 @@
 - Select and integrate a vetted open-source authentication / authorization mechanism
 - Ensure password criteria includes a minimum standard (length, complexity)
 
+## 9. As a malicious user, I want to steal login data so that I can try login credentials on other sites.
+### Mitigation Criteria
+- Completion of 10
+
+## 10. As a system administrator, I want to protect login credentials so that credential harvesting is less likely. 
+### Acceptance Criteria
+- Select and integrate a vetted open-source authentication / authorization mechanism
+- Ensure password criteria includes a minimum standard (length, complexity)
+
 ---
 # ***Future User Stories***
 ---
