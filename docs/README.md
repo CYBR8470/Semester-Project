@@ -39,7 +39,8 @@
 ### Acceptance Criteria
 - Join code mechanism should use accepted open source cryptographic random function
 - Join code should be of sufficient length to deter brute force attacks
-- Join codes should be easy to copy/paste
+- Join codes should be lowercase and numbers only, and be easy to copy/paste
+- Join code field does not accept special characters
 - Join codes are not visible for private games
 - Join codes are visible / provided for public games
 
