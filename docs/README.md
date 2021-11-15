@@ -44,17 +44,11 @@
 - Join codes are not visible for private games
 - Join codes are visible / provided for public games
 
----
-## 8. As a system administrator, I want to protect login credentials so that credential harvesting is less likely.
-### Acceptance Criteria
-- Select and integrate a vetted open-source authentication / authorization mechanism
-- Ensure password criteria includes a minimum standard (length, complexity)
-
-## 9. As a malicious user, I want to steal login data so that I can try login credentials on other sites.
+## 8. As a malicious user, I want to steal login data so that I can try login credentials on other sites.
 ### Mitigation Criteria
 - Completion of 10
 
-## 10. As a system administrator, I want to protect login credentials so that credential harvesting is less likely. 
+## 9. As a system administrator, I want to protect login credentials so that credential harvesting is less likely. 
 ### Acceptance Criteria
 - Select and integrate a vetted open-source authentication / authorization mechanism
 - Ensure password criteria includes a minimum standard (length, complexity)
@@ -62,7 +56,7 @@
 ---
 # ***Future User Stories***
 ---
-## 11. As a game developer, I want to recreate the Yahtzee game steps within the browser so that players can complete a game. 
+## 10. As a game developer, I want to recreate the Yahtzee game steps within the browser so that players can complete a game. 
 ### Acceptance Criteria
 - Player has 5 dice
 - First roll randomizes all 5 dice
@@ -74,7 +68,7 @@
 - Winner has highest score at the end of all rounds
 
 ---
-## 12. As a game developer, I want to thoroughly test scoring to ensure players receive the correct score for their dice set.
+## 11. As a game developer, I want to thoroughly test scoring to ensure players receive the correct score for their dice set.
 ### Acceptance Criteria
 - Array of all possible combinations of 5 dice is tested against ruleset
 - Die values are aggregated (1's, 2's, 3's) and scored 
@@ -82,32 +76,32 @@
 - Generated values match predicted values
 
 ---
-## 13. As a game developer, I want to recreate the Yahtzee scoring chart so that online play matches in-person play.
+## 12. As a game developer, I want to recreate the Yahtzee scoring chart so that online play matches in-person play.
 - Scores automatically generated for each valid scoresheet column based on dice values
 - Player clicks the column they want to save each round's score against
 - Each unique yahtzee rule is developed (bonuses, chance, joker, etc) to complete scoring
 - This story will be broken down into smaller stories during Milestone 2
 
 ---
-## 14. As a player, I want the interface to be intuitive and easy to navigate so that I am likely to play again.
+## 13. As a player, I want the interface to be intuitive and easy to navigate so that I am likely to play again.
 ### Acceptance Criteria
 - HTML, CSS, Javascript recreate mockup layout design and functionality
 - If able, graphics will be integrated for the dice and player avatars
 
 ---
-## 15. As a malicious user, I want to be able to cheat so that I can win every game.
+## 14. As a malicious user, I want to be able to cheat so that I can win every game.
 ### Acceptance Criteria
 - Completion of 16 
 
 ---
-## 16. As a game developer, I want to prevent cheating so that all players enjoy their game.
+## 15. As a game developer, I want to prevent cheating so that all players enjoy their game.
 ### Acceptance Criteria
 - All values are stored server-side
 - Control logic prevents data manipulation outside the ruleset in stories 9-11
 - Further criteria may be found as development continues
 
 ---
-## 17. As a player, I want a chat function so that I can communicate with the other players in the game while in the app.
+## 16. As a player, I want a chat function so that I can communicate with the other players in the game while in the app.
 ### Acceptance Criteria
 - This is a push item and will be further evaluated during milestone 2
 
