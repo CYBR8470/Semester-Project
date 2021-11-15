@@ -14,8 +14,7 @@ After the project builds and is deployed locally, you should see text in the ter
 Once that appears, navigate to "http://localhost:8000" in your browser of choice to see the app running locally on your machine.
 
 ## Getting Started
-TBD
-
+There is currently little to do within the environment. There is a landing page and a baseline register/login/logout function. The site uses open source authorization mechanisms that check against simple passwords. There is currently no error message for a bad password, but if you use a strong or recommended password, it should work and register you. It will attempt to redirect you to a nonexistent account page, but please return to localhost:8000 and there should now be options to host or join a game. Clicking on either will send you to the related page, but neither has any data presently. If you log out and try to manually go to /game/host or /game/join, it will prompt you to log in.
 
 # License
 MIT License
