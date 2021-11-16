@@ -10,6 +10,10 @@ Once you have Docker and a local copy of the repository installed, open a termin
 ```bash
 docker-compose build
 ```
+After this command completes, then in the same terminal run the following command:
+```bash
+docker-compose up
+```
 After the project builds and is deployed locally, you should see text in the terminal window that says "Starting development server at http://0.0.0.0:8000/".
 Once that appears, navigate to "http://localhost:8000" in your browser of choice to see the app running locally on your machine.
 
