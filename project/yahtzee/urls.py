@@ -22,6 +22,7 @@ from .frontend import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('game/<str:choice>', views.game, name='game'),
+    path('end/', views.endgame, name='end'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('register', views.register_request, name='register'),
     path('admin/', admin.site.urls),
