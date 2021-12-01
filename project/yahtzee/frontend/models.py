@@ -7,3 +7,4 @@ class Game(models.Model):
     host = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
     is_public = models.BooleanField()
     join_code = models.CharField(max_length=100, null=True)
+    active = models.BooleanField(default=True)
