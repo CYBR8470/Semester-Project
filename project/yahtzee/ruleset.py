@@ -21,10 +21,6 @@ def chance (dice):
     sum += x
   return sum
 
-#Need to define joker bonus rules here
-yahtzeeFlag = False
-yahtzeeBonus = 0;
-
 #If there are three of a kind, the score returned is the total of all 5 dice, else 0
 #Given a sorted array of 5 dice values, returns sum of 5 dice if three of a kind or zero.
 def threeOAK (dice):
@@ -74,7 +70,8 @@ def largeStraight (dice):
 #Given an array of 5 dice values, returns 50 if a five of a kind or zero.
 def yahtzee (dice):
   if (dice[0] == dice[1] and dice[1] == dice[2] and dice[2] == dice[3] and dice[3] == dice[4]):
-    yahtzeeFlag = True
+    #I can't set the flag here, it needs to be set once the player clicks the yahtzee button. It'll need to be in the "hand" model and set on click.
+    #yahtzeeFlag = True
     return 50
   else:
     return 0
