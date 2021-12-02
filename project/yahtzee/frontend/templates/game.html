@@ -5,8 +5,11 @@
     <body>
         {% if choice == 'host' %}
         <h1><center>YOU ARE NOW HOSTING THE GAME PAGE</center></h1>
+        <h1>Game Id: {{ game }}</h1>
+        <a href="{% url 'end' %}">End Game |</a>
         {% elif choice == 'join' %}
         <h1><center>YOU NOW JOINED THE GAME PAGE</center></h1>
+        
         {% else %}
         <h1><center>404 NOT FOUND.</center></h1>
         {% endif %}
