@@ -22,7 +22,7 @@ def chance (dice):
   return sum
 
 #Need to define joker bonus rules here
-yahtzeeFlag = false
+yahtzeeFlag = False
 yahtzeeBonus = 0;
 
 #If there are three of a kind, the score returned is the total of all 5 dice, else 0
@@ -72,9 +72,9 @@ def largeStraight (dice):
     return 0
 #Yahtzee (5 of a kind) = 50
 #Given an array of 5 dice values, returns 50 if a five of a kind or zero.
-def yahtzee (dice)
+def yahtzee (dice):
   if (dice[0] == dice[1] and dice[1] == dice[2] and dice[2] == dice[3] and dice[3] == dice[4]):
-    yahtzeeFlag = true
+    yahtzeeFlag = True
     return 50
   else:
     return 0
