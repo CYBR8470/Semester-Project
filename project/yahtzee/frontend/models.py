@@ -11,8 +11,8 @@ class Game(models.Model):
     is_open = models.BooleanField(default=True)
     
 class Hand(models.Model):
-    #connect to game
-    #connect to player
+    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    player = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
     ones = models.IntegerField(null=True)
     twos = models.IntegerField(null=True)
     threes = models.IntegerField(null=True)
@@ -25,7 +25,7 @@ class Hand(models.Model):
     small_straight = models.IntegerField(null=True)
     large_straight = models.IntegerField(null=True)
     yahtzee = models.IntegerField(null=True)
-    yahtzee_Flag = models.Boolean(default=False)
+    yahtzee_Flag = models.BooleanField(default=False)
     bonus_Yahtzees = models.IntegerField(default=0)
     upper_bonus = models.IntegerField(default=0)
     
