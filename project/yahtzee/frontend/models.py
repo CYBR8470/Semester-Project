@@ -11,7 +11,7 @@ class Game(models.Model):
     is_open = models.BooleanField(default=True)
 
 class Hand(models.Model):
-    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    game = models.ForeignKey('Game', on_delete=models.CASCADE)
     player = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
     d1 = models.IntegerField()
     d2 = models.IntegerField()
@@ -27,7 +27,7 @@ class Hand(models.Model):
         d5 = Ceil(Rand() * 6)
     
 class Score(models.Model):
-    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    game = models.ForeignKey('Game', on_delete=models.CASCADE)
     player = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
     ones = models.IntegerField(null=True)
     twos = models.IntegerField(null=True)
