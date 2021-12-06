@@ -23,7 +23,7 @@ def game(request, choice):
         finally:
             game = hosted_game
 
-    context = {'choice': choice, 'game':game.game_id}
+    context = {'choice': choice, 'game':game}
     return render(request, 'game.html', context)
 
 @login_required(login_url='/accounts/login')
