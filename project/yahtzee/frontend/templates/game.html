@@ -6,6 +6,7 @@
         {% if choice == 'host' %}
         <h1><center>YOU ARE NOW HOSTING THE GAME PAGE</center></h1>
         <h1>Game Id: {{ game }}</h1>
+        <h1>Die 1: {{ hand.d1 }}</h1>
         <a href="{% url 'end' %}">End Game |</a>
         {% elif choice == 'join' %}
         <h1><center>YOU NOW JOINED THE GAME PAGE</center></h1>
