@@ -9,8 +9,18 @@ class Game(models.Model):
     join_code = models.CharField(max_length=100, null=True)
     active = models.BooleanField(default=True)
     is_open = models.BooleanField(default=True)
-    
+
 class Hand(models.Model):
+    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    player = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
+    d1 = models.IntegerField()
+    d2 = models.IntegerField()
+    d3 = models.IntegerField()
+    d4 = models.IntegerField()
+    d5 = models.IntegerField()
+    d6 = models.IntegerField()
+    
+class Score(models.Model):
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
     player = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
     ones = models.IntegerField(null=True)
