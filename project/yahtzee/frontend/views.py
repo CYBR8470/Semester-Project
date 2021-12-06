@@ -19,15 +19,11 @@ def game(request, choice):
             hosted_game = Game.objects.get(host=request.user, active=True)
         except Game.DoesNotExist:
             hosted_game = Game(host=request.user, active=True, is_public=True)
-            hosted_game.save()
-            #Need to instantiate player hand somewhere. Put here for now.
-            player_hand = Hand(game=hosted_game, player=request.user)
-            player_hand.init()
-            player_hand.save()
+            hosted_game.save()            
         finally:
             game = hosted_game
 
-    context = {'choice': choice, 'game':game.game_id, 'hand':player_hand}
+    context = {'choice': choice, 'game':game.game_id}
     return render(request, 'game.html', context)
 
 @login_required(login_url='/accounts/login')
