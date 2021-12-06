@@ -18,7 +18,13 @@ class Hand(models.Model):
     d3 = models.IntegerField()
     d4 = models.IntegerField()
     d5 = models.IntegerField()
-    d6 = models.IntegerField()
+    
+    def init(self):
+        d1 = Ceil(Rand() * 6)
+        d2 = Ceil(Rand() * 6)
+        d3 = Ceil(Rand() * 6)
+        d4 = Ceil(Rand() * 6)
+        d5 = Ceil(Rand() * 6)
     
 class Score(models.Model):
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
