@@ -13,11 +13,11 @@ class Game(models.Model):
 class Hand(models.Model):
     game = models.ForeignKey('Game', on_delete=models.CASCADE)
     player = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
-    d1 = models.IntegerField()
-    d2 = models.IntegerField()
-    d3 = models.IntegerField()
-    d4 = models.IntegerField()
-    d5 = models.IntegerField()
+    d1 = models.IntegerField(null=True)
+    d2 = models.IntegerField(null=True)
+    d3 = models.IntegerField(null=True)
+    d4 = models.IntegerField(null=True)
+    d5 = models.IntegerField(null=True)
     
     def init(self):
         d1 = Ceil(Rand() * 6)
