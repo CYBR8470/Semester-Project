@@ -38,12 +38,11 @@ services:
       - NGINX_DOCKER_GEN_CONTAINER=nginx-gen
 
   sample-website:
-    restart: always
-    build: .
+    build: ./project
     command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     container_name: website
     volumes:
-      - .:/code
+      - ./project:/code
     ports:
       - "8000:8000"
     environment:
