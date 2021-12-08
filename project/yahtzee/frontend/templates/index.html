@@ -3,7 +3,7 @@
         <title>YAHTZEE!</title>
     </head>
     <body>
-        <h1><center>YAHTZEE!! THIS HAS BEEN AUTOMATICALLY UPDATED!!</center></h1>
+        <h1><center>YAHTZEE!!</center></h1>
         {% if user.is_authenticated %}
         <h3>Welcome {{ user.get_username }}!</h3>
         <a href="{% url 'game' 'host' %}">Host Game |</a>
