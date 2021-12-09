@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import NewUserForm
-from .models import Game
+from .models import Game, Hand, Score
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -19,11 +19,20 @@ def game(request, choice):
             hosted_game = Game.objects.get(host=request.user, active=True)
         except Game.DoesNotExist:
             hosted_game = Game(host=request.user, active=True, is_public=True)
-            hosted_game.save()            
+            hosted_game.save()
         finally:
             game = hosted_game
+        # Try making a Hand
+        try:
+            player_hand = Hand.objects.get(game=hosted_game, player=request.user)
+        except Hand.DoesNotExist:
+            player_hand = Hand(game=hosted_game, player=request.user)
+            player_hand.init()
+            player_hand.save()
+        finally:
+            hand = player_hand
 
-    context = {'choice': choice, 'game':game}
+    context = {'choice': choice, 'game':game, 'hand':hand}
     return render(request, 'game.html', context)
 
 @login_required(login_url='/accounts/login')

@@ -1,6 +1,7 @@
 import uuid
 from django.db import models
 from django.conf import settings
+import random
 
 class Game(models.Model):
     game_id = models.UUIDField(default=uuid.uuid4, editable=False, max_length=10)
@@ -13,19 +14,20 @@ class Game(models.Model):
 class Hand(models.Model):
     game = models.ForeignKey('Game', on_delete=models.CASCADE)
     player = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
-    d1 = models.IntegerField(null=True)
-    d2 = models.IntegerField(null=True)
-    d3 = models.IntegerField(null=True)
-    d4 = models.IntegerField(null=True)
-    d5 = models.IntegerField(null=True)
-    
+    d1 = models.IntegerField(default=random.randint(1,6))
+    d2 = models.IntegerField(default=random.randint(1,6))
+    d3 = models.IntegerField(default=random.randint(1,6))
+    d4 = models.IntegerField(default=random.randint(1,6))
+    d5 = models.IntegerField(default=random.randint(1,6))
+
     def init(self):
-        d1 = Ceil(Rand() * 6)
-        d2 = Ceil(Rand() * 6)
-        d3 = Ceil(Rand() * 6)
-        d4 = Ceil(Rand() * 6)
-        d5 = Ceil(Rand() * 6)
-    
+        self.d1 = random.randint(1,6)
+        self.d2 = random.randint(1,6)
+        self.d3 = random.randint(1,6)
+        self.d4 = random.randint(1,6)
+        self.d5 = random.randint(1,6)
+        self.save()
+
 class Score(models.Model):
     game = models.ForeignKey('Game', on_delete=models.CASCADE)
     player = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
@@ -44,4 +46,3 @@ class Score(models.Model):
     yahtzee_Flag = models.BooleanField(default=False)
     bonus_Yahtzees = models.IntegerField(default=0)
     upper_bonus = models.IntegerField(default=0)
-    

@@ -10,14 +10,19 @@
         <h1>Join Code: {{ game.join_code }}</h1>
         <h1>Is Public: {{ game.is_public }}</h1>
         <h1>IS Open: {{ game.is_open }}</h1>
+        <h1>something: {{hand.d1}} </h1>
+        <h1>something: {{hand.d2}} </h1>
+        <h1>something: {{hand.d3}} </h1>
+        <h1>something: {{hand.d4}} </h1>
+        <h1>something: {{hand.d5}} </h1>
         <a href="{% url 'end' %}">End Game |</a>
         {% elif choice == 'join' %}
         <h1><center>YOU NOW JOINED THE GAME PAGE</center></h1>
-        
+
         {% else %}
         <h1><center>404 NOT FOUND.</center></h1>
         {% endif %}
-        
+
         <a href="/">Home</a>
     </body>
 </html>
