@@ -44,7 +44,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'yahtzee.frontend'
+    'rest_framework',
+    'yahtzee.frontend',
+    'yahtzee.api'
 ]
 
 MIDDLEWARE = [
