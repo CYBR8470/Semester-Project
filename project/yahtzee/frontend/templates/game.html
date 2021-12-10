@@ -4,39 +4,69 @@
         {% load static %}
         <!link rel="stylesheet" href="{% static 'style.css' %}">
         <style>
-          .die {
-            height: 10vw;
-            width: 10vw;
-            border: 1px solid black;
-            text-align: center;
-            line-height: 10vw;
-            font-size: 10vw;
-            display: inline-block;
-          }
+            .window{
+                height: 90vh;
+                width: 98vw;
+                display: grid;
+                grid-auto-rows: 9vh;
+                grid-auto-columns: 9.8vw;
+            }
+            .gamebox{
+                grid-column: 1 / 9;
+                grid-row: 1 / 9;
+                border: 3px solid black;
+            }
+            .scoreboard{
+                grid-column: 9 / 11;
+                grid-row: 1 / 9;
+                border: 3px solid black;
+            }
+            .playerbox{
+                grid-column: 1 / 11;
+                grid-row: 9 / 11;
+                border: 3px solid black;
+            }
+            .die {
+              height: 9vh;
+              width: 9vh;
+              border: 1px solid black;
+              text-align: center;
+              line-height: 9vh;
+              font-size: 9vh;
+              display: inline-block;
+            }
         </style>
     </head>
     <body>
         {% if choice == 'host' %}
         <h1><center>YOU ARE NOW HOSTING THE GAME PAGE</center></h1>
-        <h1>Game Id: {{ game.game_id }}</h1>
-        <h1>Host: {{ game.host }}</h1>
-        <h1>Join Code: {{ game.join_code }}</h1>
-        <h1>Is Public: {{ game.is_public }}</h1>
-        <h1>IS Open: {{ game.is_open }}</h1>
-        <div class="die">{{hand.d1}}</div>
-        <div class="die">{{hand.d2}}</div>
-        <div class="die">{{hand.d3}}</div>
-        <div class="die">{{hand.d4}}</div>
-        <div class="die">{{hand.d5}}</div>
-        <h1>something: {{score.player}}</h1>
-        <a href="{% url 'end' %}">End Game |</a>
+       
         {% elif choice == 'join' %}
         <h1><center>YOU NOW JOINED THE GAME PAGE</center></h1>
 
         {% else %}
         <h1><center>404 NOT FOUND.</center></h1>
         {% endif %}
-
-        <a href="/">Home</a>
+        <div class="window">
+            <div class="gamebox">
+                <h1>Game Id: {{ game.game_id }}</h1>
+                <h1>Host: {{ game.host }}</h1>
+                <h1>Join Code: {{ game.join_code }}</h1>
+                <h1>Is Public: {{ game.is_public }}</h1>
+                <h1>Is Open: {{ game.is_open }}</h1>
+                <div class="die">{{hand.d1}}</div>
+                <div class="die">{{hand.d2}}</div>
+                <div class="die">{{hand.d3}}</div>
+                <div class="die">{{hand.d4}}</div>
+                <div class="die">{{hand.d5}}</div>
+            </div>
+            <div class="scorebox">    
+                <h1>something: {{score.player}}</h1>
+            </div>
+            <div class="playerbox">
+                <a href="{% url 'end' %}">End Game |</a>
+                <a href="/">Home</a>
+            </div>
+        </div>
     </body>
 </html>
