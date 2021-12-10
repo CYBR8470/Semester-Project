@@ -16,7 +16,7 @@
                 grid-row: 1 / 9;
                 border: 3px solid black;
             }
-            .scoreboard{
+            .scorebox{
                 grid-column: 9 / 11;
                 grid-row: 1 / 9;
                 border: 3px solid black;
@@ -40,7 +40,7 @@
     <body>
         {% if choice == 'host' %}
         <h1><center>YOU ARE NOW HOSTING THE GAME PAGE</center></h1>
-       
+
         {% elif choice == 'join' %}
         <h1><center>YOU NOW JOINED THE GAME PAGE</center></h1>
 
@@ -60,13 +60,27 @@
                 <div class="die">{{hand.d4}}</div>
                 <div class="die">{{hand.d5}}</div>
             </div>
-            <div class="scorebox">    
+            <div class="scorebox">
                 <h1>something: {{score.player}}</h1>
+                <p>Ones: {{hand.sumOnes}}</p>
+                <p>Twos: {{hand.sumTwos}}</p>
+                <p>Threes: {{hand.sumThrees}}</p>
+                <p>Fours: {{hand.sumFours}}</p>
+                <p>Fives: {{hand.sumFives}}</p>
+                <p>Sixes: {{hand.sumSixes}}</p>
+                <p>Three Of A Kind: {{hand.threeOAK}}</p>
+                <p>Four Of A Kind: {{hand.fourOAK}}</p>
+                <p>Full House: {{hand.fullHouse}}</p>
+                <p>Small Straight: {{hand.smallStraight}}</p>
+                <p>Large Straight: {{hand.largeStraight}}</p>
+                <p>Yahtzee: {{hand.yahtzee}}</p>
+                <p>Chance: {{hand.chance}}</p>
             </div>
             <div class="playerbox">
                 <a href="{% url 'end' %}">End Game |</a>
                 <a href="/">Home</a>
             </div>
         </div>
+        {{hand.init}}
     </body>
 </html>
