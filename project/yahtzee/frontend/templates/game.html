@@ -1,6 +1,19 @@
 <html>
     <head>
         <title>Game Page</title>
+        {% load static %}
+        <!link rel="stylesheet" href="{% static 'style.css' %}">
+        <style>
+          .die {
+            height: 10vw;
+            width: 10vw;
+            border: 1px solid black;
+            text-align: center;
+            line-height: 10vw;
+            font-size: 10vw;
+            display: inline-block;
+          }
+        </style>
     </head>
     <body>
         {% if choice == 'host' %}
@@ -10,11 +23,12 @@
         <h1>Join Code: {{ game.join_code }}</h1>
         <h1>Is Public: {{ game.is_public }}</h1>
         <h1>IS Open: {{ game.is_open }}</h1>
-        <h1>something: {{hand.d1}} </h1>
-        <h1>something: {{hand.d2}} </h1>
-        <h1>something: {{hand.d3}} </h1>
-        <h1>something: {{hand.d4}} </h1>
-        <h1>something: {{hand.d5}} </h1>
+        <div class="die">{{hand.d1}}</div>
+        <div class="die">{{hand.d2}}</div>
+        <div class="die">{{hand.d3}}</div>
+        <div class="die">{{hand.d4}}</div>
+        <div class="die">{{hand.d5}}</div>
+        <h1>something: {{score.player}}</h1>
         <a href="{% url 'end' %}">End Game |</a>
         {% elif choice == 'join' %}
         <h1><center>YOU NOW JOINED THE GAME PAGE</center></h1>

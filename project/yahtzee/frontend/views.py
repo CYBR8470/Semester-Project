@@ -22,17 +22,24 @@ def game(request, choice):
             hosted_game.save()
         finally:
             game = hosted_game
-        # Try making a Hand
+        # Pull associated hand
         try:
             player_hand = Hand.objects.get(game=hosted_game, player=request.user)
         except Hand.DoesNotExist:
             player_hand = Hand(game=hosted_game, player=request.user)
-            player_hand.init()
             player_hand.save()
         finally:
             hand = player_hand
+        # Pull associated scoreboard
+        try:
+            player_score = Score.objects.get(game=hosted_game, player=request.user)
+        except Score.DoesNotExist:
+            player_score = Score(game=hosted_game, player=request.user)
+            player_score.save()
+        finally:
+            score = player_score
 
-    context = {'choice': choice, 'game':game, 'hand':hand}
+    context = {'choice': choice, 'game':game, 'hand':hand, 'score':score}
     return render(request, 'game.html', context)
 
 @login_required(login_url='/accounts/login')
