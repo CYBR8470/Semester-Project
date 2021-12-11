@@ -12,7 +12,15 @@ def index(request):
     return render(request, 'index.html', context)
 
 @login_required(login_url='/accounts/login')
-def game(request, choice):
+def board(request, gameid):
+    game = Game.objects.get(game_id=gameid)
+    hand = Hand.objects.get(game=game, player=request.user)
+    score = Score.objects.get(game=game, player=request.user)
+    context = {'game':game, 'hand':hand, 'score':score}
+    return render(request, 'board.html', context)
+
+@login_required(login_url='/accounts/login')
+def gameSetup(request, choice):
     if(choice == 'host'):
         # Need to check for active games attached to this user.
         try:
@@ -38,9 +46,8 @@ def game(request, choice):
             player_score.save()
         finally:
             score = player_score
-
-    context = {'choice': choice, 'game':game, 'hand':hand, 'score':score}
-    return render(request, 'game.html', context)
+        context = {'choice': choice, 'game':game, 'hand':hand, 'score':score}
+        return render(request, "game.html", context)
 
 @login_required(login_url='/accounts/login')
 def endgame(request):
