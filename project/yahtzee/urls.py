@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from rest_framework.urlpatterns import format_suffix_patterns
 from django.conf.urls import url, include
 from django.contrib.auth import views as auth_views
 from .frontend import views
+from yahtzee.api import controllers
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -26,4 +28,5 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('register', views.register_request, name='register'),
     path('admin/', admin.site.urls),
+    path('api/games', controllers.GameList.as_view()),
 ]
