@@ -5,6 +5,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponse, Http404
+import uuid
 
 def index(request):
     is_authenticated = request.user.is_authenticated
@@ -29,12 +30,13 @@ def game(request, choice):
 @login_required(login_url='/accounts/login')
 def join(request, gameid):
     try:
-        game = Game.objects.get(gameid=gameid, active=True, is_open=True)
+        gameId = uuid.UUID(gameid)
+        game = Game.objects.get(game_id=gameId, active=True, is_open=True)
         # Double check there isn't already hand and score models for current player
-        hand = Hand.objects.get_or_create(gameid=gameid, player=request.user)
-        hand.save()
-        score = Score.objects.get_or_create(gameid=gameid, player=request.user)
-        score.save()
+        hand = Hand.objects.get_or_create(game=game, player=request.user)
+        #hand.save()
+        score = Score.objects.get_or_create(game=game, player=request.user)
+        #score.save()
     except Game.DoesNotExist:
         raise Http404("Given game not found...")
 
