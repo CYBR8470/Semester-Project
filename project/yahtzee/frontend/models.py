@@ -6,7 +6,7 @@ import random
 class Game(models.Model):
     game_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     host = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
-    is_public = models.BooleanField()
+    is_public = models.BooleanField(default=True)
     join_code = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     active = models.BooleanField(default=True)
     is_open = models.BooleanField(default=True)
