@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'base_generic.html' %}
 
 {% block title %}
@@ -47,3 +48,22 @@
     {% endif %}
 
 {% endblock content %}
+=======
+<html>
+    <head>
+        <title>YAHTZEE!</title>
+    </head>
+    <body>
+        <h1><center>YAHTZEE!!</center></h1>
+        {% if user.is_authenticated %}
+        <h3>Welcome {{ user.get_username }}!</h3>
+        <a href="{% url 'gameSetup' 'host' %}">Host Game |</a>
+        <a href="{% url 'gameSetup' 'join' %}">Join Game |</a>
+        <p><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></p>
+        {% else %}
+            <p><a href="{% url 'login'%}?next={{request.path}}">Login</a></p>
+            <p><a href="{% url 'register'%}?next={{request.path}}">Register</a></p>
+        {% endif %}
+    </body>
+</html>
+>>>>>>> 08f0fa1412f88c413e3432988458b8ab1e27f763

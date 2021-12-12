@@ -15,19 +15,34 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+<<<<<<< HEAD
 from rest_framework.urlpatterns import format_suffix_patterns
 from django.conf.urls import url, include         
+=======
+from django.conf import settings
+from django.conf.urls import url, include
+from django.conf.urls.static import static
+>>>>>>> 08f0fa1412f88c413e3432988458b8ab1e27f763
 from django.contrib.auth import views as auth_views
 from .frontend import views
 from yahtzee.api import controllers
 
 urlpatterns = [
     path('', views.index, name='index'),
+<<<<<<< HEAD
     path('game/<str:choice>', views.game, name='game'),
     path('join/<str:gameid>', views.join, name='join'),
+=======
+    path('gameSetup/<str:choice>', views.gameSetup, name='gameSetup'),
+    path('board/<str:gameid>', views.board, name='board'),
+>>>>>>> 08f0fa1412f88c413e3432988458b8ab1e27f763
     path('end/', views.endgame, name='end'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('register', views.register_request, name='register'),
     path('admin/', admin.site.urls),
+<<<<<<< HEAD
     path('api/games', controllers.GameList.as_view()),
 ]
+=======
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+>>>>>>> 08f0fa1412f88c413e3432988458b8ab1e27f763

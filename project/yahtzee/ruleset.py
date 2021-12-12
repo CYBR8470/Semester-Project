@@ -3,7 +3,7 @@
 
 #Upper section only counts dice that match the descriptor or returns zero
 
-#Given an array of dice values and a desired pip value, returns sum of all die with desired pip value
+#Given an array of dice values and a desired pip value, returns sum of all dice with desired pip value
 def sumVals (dice, val):
   sum = 0
   for x in dice:

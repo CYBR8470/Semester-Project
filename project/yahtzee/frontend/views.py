@@ -13,19 +13,42 @@ def index(request):
     return render(request, 'index.html', context)
 
 @login_required(login_url='/accounts/login')
-def game(request, choice):
+def board(request, gameid):
+    game = Game.objects.get(game_id=gameid)
+    hand = Hand.objects.get(game=game, player=request.user)
+    score = Score.objects.get(game=game, player=request.user)
+    context = {'game':game, 'hand':hand, 'score':score}
+    return render(request, 'board.html', context)
+
+@login_required(login_url='/accounts/login')
+def gameSetup(request, choice):
     if(choice == 'host'):
         # Need to check for active games attached to this user.
         try:
             hosted_game = Game.objects.get(host=request.user, active=True)
         except Game.DoesNotExist:
             hosted_game = Game(host=request.user, active=True, is_public=True)
-            hosted_game.save()            
+            hosted_game.save()
         finally:
             game = hosted_game
-
-    context = {'choice': choice, 'game':game}
-    return render(request, 'game.html', context)
+        # Pull associated hand
+        try:
+            player_hand = Hand.objects.get(game=hosted_game, player=request.user)
+        except Hand.DoesNotExist:
+            player_hand = Hand(game=hosted_game, player=request.user)
+            player_hand.save()
+        finally:
+            hand = player_hand
+        # Pull associated scoreboard
+        try:
+            player_score = Score.objects.get(game=hosted_game, player=request.user)
+        except Score.DoesNotExist:
+            player_score = Score(game=hosted_game, player=request.user)
+            player_score.save()
+        finally:
+            score = player_score
+        context = {'choice': choice, 'game':game, 'hand':hand, 'score':score}
+        return render(request, "game.html", context)
 
 @login_required(login_url='/accounts/login')
 def join(request, gameid):
