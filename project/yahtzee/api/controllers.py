@@ -45,5 +45,15 @@ class  GameDetail(APIView):
         game.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+class BoardRollDice(APIView):
+    """
+        Get New Dice Values
+    """
+    def post(self, request):
+        data = request.data
+        hand = Hand.objects.get(game=data.game, player=data.player)
+        
+
+
 
 
