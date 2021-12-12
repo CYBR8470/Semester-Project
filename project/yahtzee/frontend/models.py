@@ -1,19 +1,11 @@
 import uuid
 from django.db import models
 from django.conf import settings
-<<<<<<< HEAD
-from django.contrib.auth.models import User
-
-class Game(models.Model):
-    game_id = models.UUIDField(default=uuid.uuid4, editable=False, max_length=10)
-    host = models.ForeignKey(User, related_name='user', on_delete = models.CASCADE)
-=======
 import random
 
 class Game(models.Model):
     game_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     host = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
->>>>>>> 08f0fa1412f88c413e3432988458b8ab1e27f763
     is_public = models.BooleanField()
     join_code = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     active = models.BooleanField(default=True)
