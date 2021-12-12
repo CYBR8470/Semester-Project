@@ -1,7 +1,7 @@
 {% extends 'base_generic.html' %}
 
 {% block title %}
-<title>YAHTZEE! from blocks</title>
+<title>YAHTZEE!</title>
 {% endblock title %}
 
 {%  block content %}
@@ -12,7 +12,7 @@
     <a id="join_game" href="#">Join Game |</a>
 
     <table id="results">
-        <tr><th>Game Id</th><th>Game Host</th></tr>
+        <tr><th>Game Id</th><th>Game Host</th><th>URL</th></tr>
     </table>
     <p><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></p>
     <div id="results"></div>
@@ -25,7 +25,7 @@
                     var results = "";
                     var table = $('#results');
                     data.forEach(element => {
-                        var htmlResult = "<tr><td>" + element.game_id + "</td><td>" + element.username + "</td></tr>";
+                        var htmlResult = "<tr><td>" + element.game_id + "</td><td>" + element.username + "</td><td><a href='/join/" + element.game_id + "'>Join</a></td></tr>";
                         table.append(htmlResult);
                     });
                 }

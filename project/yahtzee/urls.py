@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
-from django.conf.urls import url, include
+from django.conf.urls import url, include         
 from django.contrib.auth import views as auth_views
 from .frontend import views
 from yahtzee.api import controllers
@@ -24,6 +24,7 @@ from yahtzee.api import controllers
 urlpatterns = [
     path('', views.index, name='index'),
     path('game/<str:choice>', views.game, name='game'),
+    path('join/<str:gameid>', views.game, name='join'),
     path('end/', views.endgame, name='end'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('register', views.register_request, name='register'),
