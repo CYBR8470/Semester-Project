@@ -6,14 +6,19 @@
 
 {%  block content %}
     <h1><center>YAHTZEE!!</center></h1>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
     {% if user.is_authenticated %}
     <h3>Welcome {{ user.get_username }}!</h3>
-    <a href="{% url 'game' 'host' %}">Host Game |</a>
-    <a id="join_game" href="#">Join Game |</a>
+    <a href="{% url 'game' 'host' %}">Host Game</a>
+    <a id="join_game" href="#">Join Game</a>
 
-    <table id="results">
+    <!-- <table style="display:hidden; " id="results">
         <tr><th>Game Id</th><th>Game Host</th><th>URL</th></tr>
-    </table>
+    </table> -->
     <p><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></p>
     <div id="results"></div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -23,11 +28,13 @@
                 if(status === "success")
                 {
                     var results = "";
-                    var table = $('#results');
+                    var table = "<table><tr><th>Game Id</th><th>Game Host</th><th>URL</th></tr>";
                     data.forEach(element => {
                         var htmlResult = "<tr><td>" + element.game_id + "</td><td>" + element.username + "</td><td><a href='/join/" + element.game_id + "'>Join</a></td></tr>";
-                        table.append(htmlResult);
+                        table += htmlResult;
                     });
+                    table += "</table>";
+                    $('#results').html(table);
                 }
                 
             });

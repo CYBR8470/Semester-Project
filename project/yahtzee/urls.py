@@ -24,7 +24,7 @@ from yahtzee.api import controllers
 urlpatterns = [
     path('', views.index, name='index'),
     path('game/<str:choice>', views.game, name='game'),
-    path('join/<str:gameid>', views.game, name='join'),
+    path('join/<str:gameid>', views.join, name='join'),
     path('end/', views.endgame, name='end'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('register', views.register_request, name='register'),
