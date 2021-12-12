@@ -1,17 +1,49 @@
-<html>
-    <head>
-        <title>YAHTZEE!</title>
-    </head>
-    <body>
-        <h1><center>YAHTZEE!!</center></h1>
-        {% if user.is_authenticated %}
-        <h3>Welcome {{ user.get_username }}!</h3>
-        <a href="{% url 'gameSetup' 'host' %}">Host Game |</a>
-        <a href="{% url 'gameSetup' 'join' %}">Join Game |</a>
-        <p><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></p>
-        {% else %}
-            <p><a href="{% url 'login'%}?next={{request.path}}">Login</a></p>
-            <p><a href="{% url 'register'%}?next={{request.path}}">Register</a></p>
-        {% endif %}
-    </body>
-</html>
+{% extends 'base_generic.html' %}
+
+{% block title %}
+<title>YAHTZEE!</title>
+{% endblock title %}
+
+{%  block content %}
+    <h1><center>YAHTZEE!!</center></h1>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+    {% if user.is_authenticated %}
+    <h3>Welcome {{ user.get_username }}!</h3>
+    <a href="{% url 'gameSetup' 'host' %}">Host Game</a>
+    <a id="join_game" href="#">Join Game</a>
+
+    <!-- <table style="display:hidden; " id="results">
+        <tr><th>Game Id</th><th>Game Host</th><th>URL</th></tr>
+    </table> -->
+    <p><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></p>
+    <div id="results"></div>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/JavaScript">
+        $('#join_game').click(function(){
+            $.get("/api/games", function(data, status){
+                if(status === "success")
+                {
+                    var results = "";
+                    var table = "<table><tr><th>Game Id</th><th>Game Host</th><th>URL</th></tr>";
+                    data.forEach(element => {
+                        var htmlResult = "<tr><td>" + element.game_id + "</td><td>" + element.username + "</td><td><a href='/join/" + element.game_id + "'>Join</a></td></tr>";
+                        table += htmlResult;
+                    });
+                    table += "</table>";
+                    $('#results').html(table);
+                }
+                
+            });
+        });
+    </script>
+
+    {% else %}
+        <p><a href="{% url 'login'%}?next={{request.path}}">Login</a></p>
+        <p><a href="{% url 'register'%}?next={{request.path}}">Register</a></p>
+    {% endif %}
+
+{% endblock content %}

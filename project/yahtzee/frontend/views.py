@@ -4,7 +4,8 @@ from .models import Game, Hand, Score
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
+import uuid
 
 def index(request):
     is_authenticated = request.user.is_authenticated
@@ -48,6 +49,23 @@ def gameSetup(request, choice):
             score = player_score
         context = {'choice': choice, 'game':game, 'hand':hand, 'score':score}
         return render(request, "game.html", context)
+
+@login_required(login_url='/accounts/login')
+def join(request, gameid):
+    try:
+        gameId = uuid.UUID(gameid)
+        game = Game.objects.get(game_id=gameId, active=True, is_open=True)
+        # Double check there isn't already hand and score models for current player
+        hand = Hand.objects.get_or_create(game=game, player=request.user)
+        #hand.save()
+        score = Score.objects.get_or_create(game=game, player=request.user)
+        #score.save()
+    except Game.DoesNotExist:
+        raise Http404("Given game not found...")
+
+    context = {'choice': 'join', 'game':game, 'hand':hand, 'score':score}
+    return render(request, "game.html", context)
+
 
 @login_required(login_url='/accounts/login')
 def endgame(request):
