@@ -6,8 +6,8 @@
         <h1><center>YAHTZEE!!</center></h1>
         {% if user.is_authenticated %}
         <h3>Welcome {{ user.get_username }}!</h3>
-        <a href="{% url 'game' 'host' %}">Host Game |</a>
-        <a href="{% url 'game' 'join' %}">Join Game |</a>
+        <a href="{% url 'gameSetup' 'host' %}">Host Game |</a>
+        <a href="{% url 'gameSetup' 'join' %}">Join Game |</a>
         <p><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></p>
         {% else %}
             <p><a href="{% url 'login'%}?next={{request.path}}">Login</a></p>

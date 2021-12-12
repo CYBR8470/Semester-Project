@@ -4,10 +4,10 @@ from django.conf import settings
 import random
 
 class Game(models.Model):
-    game_id = models.UUIDField(default=uuid.uuid4, editable=False, max_length=10)
+    game_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     host = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
     is_public = models.BooleanField()
-    join_code = models.CharField(max_length=100, null=True)
+    join_code = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     active = models.BooleanField(default=True)
     is_open = models.BooleanField(default=True)
     rem_rounds = models.IntegerField(default=13)
@@ -29,6 +29,14 @@ class Hand(models.Model):
         self.d4 = random.randint(1,6)
         self.d5 = random.randint(1,6)
         self.save()
+
+    def reduceRC(self):
+        if self.roll_count > 0:
+          self.roll_count -= 1
+          self.save()
+          return 0
+        else:
+          return 1
     #Yahtzee has two sections, an upper section and a lower section.
     #Upper section only counts dice that match the descriptor or returns zero
 
