@@ -132,6 +132,8 @@
                 {{score.sumValues}}
             </div>
             <div class="playerbox">
+                <input type="hidden" id="playerId" value="{{ score.player.id }}" />
+                <input type="hidden" id="gameId" value="{{ game.game_id }}" />
                 <a href="{% url 'end' %}">End Game |</a>
                 <a href="/">Home</a>
             </div>
@@ -158,7 +160,6 @@
         
 
         function setDiceRoll() {
-            debugger;
             var selectedDice = $('.die-selected');
             var array = [0,0,0,0,0]
             if(selectedDice.length > 0)
