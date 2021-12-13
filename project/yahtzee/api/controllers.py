@@ -5,8 +5,10 @@ from rest_framework.response import Response
 from rest_framework import generics
 from django.shortcuts import render
 from django.db import models
-from yahtzee.api.serializers import GameSerializer
-from yahtzee.frontend.models import Game
+from django.views.decorators.csrf import csrf_exempt
+from yahtzee.api.serializers import GameSerializer, HandSerializer
+from yahtzee.frontend.models import Game, Hand
+import uuid
 
 class GameList(APIView):
     """
@@ -44,6 +46,33 @@ class  GameDetail(APIView):
         game = self.get_object(pk)
         game.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class BoardRollDice(APIView):
+    """
+        Sets new dice values, saves hand and returns values.
+    """
+    def post(self, request):
+        data = request.data
+        gameId = uuid.UUID(data['game'])
+        game = Game.objects.get(game_id=gameId)
+        player = int(data['player'])
+        try:
+            hand = Hand.objects.get(game=game, player=player)
+        except Hand.DoesNotExist:
+            hand = Hand(game=game, player=player)
+            hand.save()
+        hand.d1 = hand.rolldice(int(data['d1']))
+        hand.d2 = hand.rolldice(int(data['d2']))
+        hand.d3 = hand.rolldice(int(data['d3']))
+        hand.d4 = hand.rolldice(int(data['d4']))
+        hand.d5 = hand.rolldice(int(data['d5']))
+        hand.reduceRC()
+        hand.save()
+        serializer = HandSerializer(hand)
+        return Response(serializer.data)
+        
+        
+
 
 
 

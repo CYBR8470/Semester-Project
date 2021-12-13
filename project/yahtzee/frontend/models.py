@@ -30,6 +30,15 @@ class Hand(models.Model):
         self.d5 = random.randint(1,6)
         self.save()
 
+    # Method to pass in dice values from controller, and either generate new random numbers,
+    # or keep passed in number to save to hand.
+    @classmethod
+    def rolldice (self, dice):
+      if dice == 0:
+        return random.randint(1,6)
+      elif dice > 0:
+        return dice
+
     def reduceRC(self):
         if self.roll_count > 0:
           self.roll_count -= 1
