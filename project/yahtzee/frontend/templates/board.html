@@ -53,7 +53,7 @@
                 <div id="d3" class="die">{{hand.d3}}</div>
                 <div id="d4" class="die">{{hand.d4}}</div>
                 <div id="d5" class="die">{{hand.d5}}</div>
-                <p>Roll Count: {{hand.roll_count}}</p>
+                <p id="rollCount">Roll Count: {{hand.roll_count}}</p>
                 <button onclick="location.reload()">Reload Screen</button>
                 <button><a href="{% url 'board' 'host' %}">Also Reload Screen</a></button>
                 <button id="rollDice">Roll the dice!</button>
@@ -84,24 +84,26 @@
         <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
         <script type="text/JavaScript">
 
-            $('#join_game').click(function(){
-            $.get("/api/games", function(data, status){
-                if(status === "success")
-                {
-                    var results = "";
-                    var table = "<table><tr><th>Game Id</th><th>Game Host</th><th>URL</th></tr>";
-                    data.forEach(element => {
-                        var htmlResult = "<tr><td>" + element.game_id + "</td><td>" + element.username + "</td><td><a href='/join/" + element.game_id + "'>Join</a></td></tr>";
-                        table += htmlResult;
-                    });
-                    table += "</table>";
-                    $('#results').html(table);
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie != '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
                 }
-                
-            });
-        });
+            }
+            return cookieValue;
+        }
+
+        
 
         function setDiceRoll() {
+            debugger;
             var selectedDice = $('.die-selected');
             var array = [0,0,0,0,0]
             if(selectedDice.length > 0)
@@ -112,10 +114,10 @@
                     var idNumber = id.split('d')[1];
                     array[idNumber-1] = parseInt(diceValue);
                 });
-                console.log('final array: ' + JSON.stringify(array));
             }
-            player = $('#playerId').val();
-            game = $('#gameId').val();
+            var player = $('#playerId').val();
+            var game = $('#gameId').val();
+            var csrftoken = getCookie('csrftoken');
             data = {
                 'd1': array[0],
                 'd2': array[1],
@@ -125,7 +127,23 @@
                 'player': player,
                 'game': game
             };
-            console.log('data: ' + JSON.stringify(data));
+
+            $.ajax({
+                method: 'POST',
+                url: '../api/rolldice',
+                data: data,
+                beforeSend: function(xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                },
+                success: function(data, status){
+                    var allDice = $('.die');
+                    $.each(allDice, function(index, value){
+                    var singleDice = $('#'+value.id)[0]
+                    singleDice.innerText = data['d'+(index +1)];
+                    $('#rollCount')[0].innerText = "Roll Count: " + data['roll_count'];
+                });
+                }
+            });
         }
 
         $('.die').click(function(evt){

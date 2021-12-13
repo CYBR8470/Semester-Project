@@ -32,4 +32,5 @@ urlpatterns = [
     path('register', views.register_request, name='register'),
     path('admin/', admin.site.urls),
     path('api/games', controllers.GameList.as_view()),
+    path('api/rolldice', controllers.BoardRollDice.as_view()),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

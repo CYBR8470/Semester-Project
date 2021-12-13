@@ -57,9 +57,7 @@ def join(request, gameid):
         game = Game.objects.get(game_id=gameId, active=True, is_open=True)
         # Double check there isn't already hand and score models for current player
         hand = Hand.objects.get_or_create(game=game, player=request.user)
-        #hand.save()
         score = Score.objects.get_or_create(game=game, player=request.user)
-        #score.save()
     except Game.DoesNotExist:
         raise Http404("Given game not found...")
 
