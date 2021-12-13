@@ -187,3 +187,17 @@ class Score(models.Model):
     yahtzee_Flag = models.BooleanField(default=False)
     bonus_Yahtzees = models.IntegerField(default=0)
     upper_bonus = models.IntegerField(default=0)
+
+    #Given an array of scores from model, return total score, WIP
+    def sumValues(self):
+        upper = 0
+        if (self.ones is not None): upper +=self.ones
+        if (self.twos is not None): upper +=self.twos
+        if (self.threes is not None): upper +=self.threes
+        if (self.fours is not None): upper +=self.fours
+        if (self.fives is not None): upper +=self.fives
+        if (self.sixes is not None): upper +=self.sixes
+        upper_bonus = 0
+        if (upper >= 63):
+            upper_bonus = 35
+        return upper + upper_bonus

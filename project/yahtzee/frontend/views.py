@@ -13,6 +13,62 @@ def index(request):
     return render(request, 'index.html', context)
 
 @login_required(login_url='/accounts/login')
+def action(request, gameid, action):
+    game = Game.objects.get(game_id=gameid)
+    hand = Hand.objects.get(game=game, player=request.user)
+    score = Score.objects.get(game=game, player=request.user)
+    if (action == 'setOnes'):
+        if (score.ones is None):
+            score.ones = hand.sumOnes()
+            score.save()
+            game.rem_rounds -= 1
+            game.save()
+            print("setOnes called")
+
+    if (action == 'setTwos'):
+        if (score.twos is None):
+            score.twos = hand.sumTwos()
+            score.save()
+            game.rem_rounds -= 1
+            game.save()
+            print("setTwos called")
+
+    if (action == 'setThrees'):
+        if (score.threes is None):
+            score.threes = hand.sumThrees()
+            score.save()
+            game.rem_rounds -= 1
+            game.save()
+            print("setThrees called")
+
+    if (action == 'setFours'):
+        if (score.fours is None):
+            score.fours = hand.sumFours()
+            score.save()
+            game.rem_rounds -= 1
+            game.save()
+            print("setFours called")
+
+    if (action == 'setFives'):
+        if (score.fives is None):
+            score.fives = hand.sumFives()
+            score.save()
+            game.rem_rounds -= 1
+            game.save()
+            print("setFives called")
+
+    if (action == 'setSixes'):
+        if (score.sixes is None):
+            score.sixes = hand.sumSixes()
+            score.save()
+            game.rem_rounds -= 1
+            game.save()
+            print("setSixes called")
+
+    context = {'game':game, 'hand':hand, 'score':score}
+    return render(request, 'game.html', context)
+
+@login_required(login_url='/accounts/login')
 def board(request, gameid):
     game = Game.objects.get(game_id=gameid)
     hand = Hand.objects.get(game=game, player=request.user)
