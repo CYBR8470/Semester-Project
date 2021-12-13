@@ -10,17 +10,19 @@ class Game(models.Model):
     join_code = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     active = models.BooleanField(default=True)
     is_open = models.BooleanField(default=True)
-    rem_rounds = models.IntegerField(default=13)
+
 
 class Hand(models.Model):
     game = models.ForeignKey('Game', on_delete=models.CASCADE)
     player = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
-    d1 = models.IntegerField(default=6)
-    d2 = models.IntegerField(default=6)
-    d3 = models.IntegerField(default=6)
-    d4 = models.IntegerField(default=6)
-    d5 = models.IntegerField(default=6)
-    roll_count = models.IntegerField(default=3)
+    d1 = models.IntegerField(default=random.randint(1,6))
+    d2 = models.IntegerField(default=random.randint(1,6))
+    d3 = models.IntegerField(default=random.randint(1,6))
+    d4 = models.IntegerField(default=random.randint(1,6))
+    d5 = models.IntegerField(default=random.randint(1,6))
+    roll_count = models.IntegerField(default=2)
+    rem_rounds = models.IntegerField(default=13)
+    yahtzee_flag = models.BooleanField()
 
     def init(self):
         self.d1 = random.randint(1,6)
@@ -115,6 +117,9 @@ class Hand(models.Model):
         return self.chance()
       elif (dice[2] == dice[3] and dice[3] == dice[4]):
         return self.chance()
+      #For the Joker Rules, we need to check if the yahtzee field has already been filled
+      elif (self.yahtzee_flag is not None and self.yahtzee == 50):
+        return self.chance()
       else:
         return 0
     #Four of a kind is the same
@@ -125,6 +130,9 @@ class Hand(models.Model):
       if (dice[0] == dice[1] and dice[1] == dice[2] and dice[2] == dice[3]):
         return self.chance()
       elif (dice[1] == dice[2] and dice[2] == dice[3] and dice[3] == dice[4]):
+        return self.chance()
+      #For the Joker Rules, we need to check if the yahtzee field has already been filled
+      elif (self.yahtzee_flag is not None and self.yahtzee == 50):
         return self.chance()
       else:
         return 0
@@ -139,6 +147,9 @@ class Hand(models.Model):
         return 25
       elif (dice[0] == dice[1] and dice[1] != dice[2] and dice[2] == dice[3] and dice[3] == dice[4]):
         return 25
+      #For the Joker Rules, we need to check if the yahtzee field has already been filled
+      elif (self.yahtzee_flag is not None and self.yahtzee == 50):
+        return 25
       else:
         return 0
     #Small straight = 30
@@ -150,6 +161,9 @@ class Hand(models.Model):
         return 30
       elif (dice[1]+1 == dice[2] and dice[2]+1 == dice[3] and dice[3]+1 == dice[4]):
         return 30
+      #For the Joker Rules, we need to check if the yahtzee field has already been filled
+      elif (self.yahtzee_flag is not None and self.yahtzee == 50):
+        return 30
       else:
         return 0
     #Large straight = 40
@@ -158,6 +172,9 @@ class Hand(models.Model):
       dice = [self.d1,self.d2,self.d3,self.d4,self.d5]
       dice.sort()
       if (dice[0]+1 == dice[1] and dice[1]+1 == dice[2] and dice[2]+1 == dice[3] and dice[3]+1 == dice[4]):
+        return 40
+      #For the Joker Rules, we need to check if the yahtzee field has already been filled
+      elif (self.yahtzee_flag is not None and self.yahtzee == 50):
         return 40
       else:
         return 0
@@ -184,9 +201,8 @@ class Score(models.Model):
     small_straight = models.IntegerField(null=True)
     large_straight = models.IntegerField(null=True)
     yahtzee = models.IntegerField(null=True)
-    yahtzee_Flag = models.BooleanField(default=False)
-    bonus_Yahtzees = models.IntegerField(default=0)
-    upper_bonus = models.IntegerField(default=0)
+    chance = models.IntegerField(null=True)
+    bonus_yahtzees = models.IntegerField(default=0)
 
     #Given an array of scores from model, return total score, WIP
     def sumValues(self):

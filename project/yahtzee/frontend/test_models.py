@@ -19,7 +19,6 @@ class GameModelTestCase(TestCase):
         self.assertTrue(game.is_public)
         self.assertIsNotNone(game.game_id)
         self.assertNotEqual(game.game_id, game.join_code)
-        self.assertEqual(13, game.rem_rounds)
 
 class HandModelTestCase(TestCase):
     """
@@ -38,24 +37,24 @@ class HandModelTestCase(TestCase):
         hand = Hand.objects.get(id=1)
         self.assertEqual(game.game_id, hand.game.game_id)
         self.assertEqual(user.id, hand.player.id)
-        self.assertEqual(3, hand.roll_count)
         self.assertGreater(hand.d1, 0)
         self.assertGreater(hand.d2, 0)
         self.assertGreater(hand.d3, 0)
         self.assertGreater(hand.d4, 0)
         self.assertGreater(hand.d5, 0)
+        self.assertEqual(2, hand.roll_count)
+        self.assertEqual(13, hand.rem_rounds)
+        self.assertIsNone(hand.yahtzee_flag)
 
     # Testing roll_count reduction
     def test_hand_reduceRC_method(self):
         hand = Hand.objects.get(id=1)
-        self.assertEqual(3, hand.roll_count)
-        hand.reduceRC()
         self.assertEqual(2, hand.roll_count)
         hand.reduceRC()
         self.assertEqual(1, hand.roll_count)
         hand.reduceRC()
         self.assertEqual(0, hand.roll_count)
-    
+
     # Testing sumOnes
     def test_hand_sumOnes_method(self):
         hand = Hand.objects.get(id=1)
@@ -65,6 +64,5 @@ class HandModelTestCase(TestCase):
         hand.d3 = 1
         hand.d4 = 1
         hand.d5 = 5
-        sum = hand.sumOnes() 
+        sum = hand.sumOnes()
         self.assertEqual(3, sum)
-        
