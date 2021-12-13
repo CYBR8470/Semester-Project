@@ -26,6 +26,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('join/<str:gameid>', views.join, name='join'),
     path('gameSetup/<str:choice>', views.gameSetup, name='gameSetup'),
+    path('action/<str:gameid>/<str:action>', views.action, name='action'),
     path('board/<str:gameid>', views.board, name='board'),
     path('end/', views.endgame, name='end'),
     path('accounts/', include('django.contrib.auth.urls')),
