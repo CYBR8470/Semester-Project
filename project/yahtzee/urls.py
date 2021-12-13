@@ -24,6 +24,7 @@ from yahtzee.api import controllers
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('action/<str:gameid>/<str:action>', views.action, name='action'),
     path('join/<str:gameid>', views.join, name='join'),
     path('gameSetup/<str:choice>', views.gameSetup, name='gameSetup'),
     path('board/<str:gameid>', views.board, name='board'),
