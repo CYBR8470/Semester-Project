@@ -1,3 +1,8 @@
 .env
 project/.env
 project/yahtzee/.env
+__pycache__
+api/__pycache__
+api/migrations/__pycache__
+frontend/__pycache__
+frontend/migrations/__pycache__
