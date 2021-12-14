@@ -22,7 +22,7 @@ class Hand(models.Model):
     d5 = models.IntegerField(default=random.randint(1,6))
     roll_count = models.IntegerField(default=2)
     rem_rounds = models.IntegerField(default=13)
-    yahtzee_flag = models.BooleanField()
+    yahtzee_flag = models.IntegerField(null=True)
 
     def init(self):
         self.d1 = random.randint(1,6)
