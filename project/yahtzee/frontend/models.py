@@ -224,4 +224,4 @@ class Score(models.Model):
         if (self.large_straight is not None): lower +=self.large_straight
         if (self.yahtzee is not None): lower +=self.yahtzee
         if (self.chance is not None): lower +=self.chance
-        return upper + upper_bonus + lower
+        return upper + upper_bonus + lower + ( self.bonus_yahtzees * 100 )
