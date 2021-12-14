@@ -49,7 +49,7 @@
             }
         </style>
     </head>
-    <body>        
+    <body>
         <div class="window">
             <div class="gamebox">
                 <h1>Game Id: {{ game.game_id }}</h1>
@@ -107,7 +107,7 @@
                     </div>
                   {% endif %}
                 <br>
-                <p>Fours:
+                <div class="score">Fours:</div>
                   {% if score.fours == null %}
                     <button>
                       <a class="score" href="{% url 'action' game.game_id 'setFours' %}">
@@ -119,15 +119,39 @@
                       {{score.fours}}
                     </div>
                   {% endif %}
-                </p>
-                <p>Fives:<button>{{hand.sumFives}}</button></p>
+                <br>
+                <div class="score">Fives:</div>
+                  {% if score.fives == null %}
+                    <button>
+                      <a class="score" href="{% url 'action' game.game_id 'setFives' %}">
+                        {{hand.sumFives}}
+                      </a>
+                    </button>
+                  {% else %}
+                    <div class="score">
+                      {{score.fives}}
+                    </div>
+                  {% endif %}
+                <br>
                 <p>Sixes:<button>{{hand.sumSixes}}</button></p>
                 <p>Three Of A Kind:<button>{{hand.threeOAK}}</button></p>
                 <p>Four Of A Kind:<button>{{hand.fourOAK}}</button></p>
                 <p>Full House:<button>{{hand.fullHouse}}</button></p>
                 <p>Small Straight:<button>{{hand.smallStraight}}</button></p>
                 <p>Large Straight:<button>{{hand.largeStraight}}</button></p>
-                <p>Yahtzee:<button>{{hand.yahtzee}}</button></p>
+                <div class="score">Yahtzee:</div>
+                  {% if score.yahtzee == null %}
+                    <button>
+                      <a class="score" href="{% url 'action' game.game_id 'setYahtzee' %}">
+                        {{hand.yahtzee}}
+                      </a>
+                    </button>
+                  {% else %}
+                    <div class="score">
+                      {{score.yahtzee}}
+                    </div>
+                  {% endif %}
+                <br>
                 <p>Chance:<button>{{hand.chance}}</button></p>
                 {{score.sumValues}}
             </div>
@@ -157,7 +181,7 @@
             return cookieValue;
         }
 
-        
+
 
         function setDiceRoll() {
             var selectedDice = $('.die-selected');

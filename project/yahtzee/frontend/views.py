@@ -17,13 +17,53 @@ def action(request, gameid, action):
     game = Game.objects.get(game_id=gameid)
     hand = Hand.objects.get(game=game, player=request.user)
     score = Score.objects.get(game=game, player=request.user)
+
     if (action == 'setOnes'):
+        #First we check that the field is empty, so that data is not overwritten
         if (score.ones is None):
+            #Then the calculated value based on the dice is saved to the score
             score.ones = hand.sumOnes()
+            #For Joker rules, we need to check if this is a bonus yahtzee
+            if (hand.yahtzee_flag == 1 and hand.yahtzee() == 50 ):
+                #If so, we increment the number of bonus_yahtzees
+                score.bonus_yahtzees += 1
             score.save()
-            game.rem_rounds -= 1
-            game.save()
-            print("setOnes called")
+            #Next we reset the dice and decrease the number of rem_rounds by 1
+            hand.roll_count = 2
+            hand.rem_rounds -= 1
+            hand.init()
+            #Because hand.init() saves we do not need to do so here
+    if (action == 'setFives'):
+        #First we check that the field is empty, so that data is not overwritten
+        if (score.fives is None):
+            #Then the calculated value based on the dice is saved to the score
+            score.fives = hand.sumFives()
+            #For Joker rules, we need to check if this is a bonus yahtzee
+            if (hand.yahtzee_flag == 1 and hand.yahtzee() == 50 ):
+                #If so, we increment the number of bonus_yahtzees
+                score.bonus_yahtzees += 1
+            score.save()
+            #Next we reset the dice and decrease the number of rem_rounds by 1
+            hand.roll_count = 2
+            hand.rem_rounds -= 1
+            hand.init()
+            #Because hand.init() saves we do not need to do so here
+
+    if (action == 'setYahtzee'):
+        #First we check that the field is empty, so that data is not overwritten
+        if (score.yahtzee is None):
+            #Then the calculated value based on the dice is saved to the score
+            score.yahtzee = hand.yahtzee()
+            score.save()
+            #For Joker rules, we need to set the yahtzee flag to 0 or 1
+            if ( hand.yahtzee() == 50 ):
+                hand.yahtzee_flag = 1
+            else:
+                hand.yahtzee_flag = 0
+            #Next we reset the dice and decrease the number of rem_rounds by 1
+            hand.roll_count = 2
+            hand.rem_rounds -= 1
+            hand.init()
 
     if (action == 'setTwos'):
         if (score.twos is None):
