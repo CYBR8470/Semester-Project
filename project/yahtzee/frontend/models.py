@@ -24,12 +24,15 @@ class Hand(models.Model):
     rem_rounds = models.IntegerField(default=13)
     yahtzee_flag = models.IntegerField(null=True)
 
+    #Provides initial roll, decrements the remaining rounds and resets the roll count
     def init(self):
         self.d1 = random.randint(1,6)
         self.d2 = random.randint(1,6)
         self.d3 = random.randint(1,6)
         self.d4 = random.randint(1,6)
         self.d5 = random.randint(1,6)
+        self.rem_rounds -= 1
+        self.roll_count = 2
         self.save()
 
     # Method to pass in dice values from controller, and either generate new random numbers,

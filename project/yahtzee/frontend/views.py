@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponse, Http404
 import uuid
+import cgi
 
 def index(request):
     is_authenticated = request.user.is_authenticated
@@ -18,36 +19,100 @@ def action(request, gameid, action):
     hand = Hand.objects.get(game=game, player=request.user)
     score = Score.objects.get(game=game, player=request.user)
 
+    def bonusYahtzee():
+        #For Joker rules, we need to check if this is a bonus yahtzee
+        if (hand.yahtzee_flag == 1 and hand.yahtzee() == 50 ):
+            #If so, we increment the number of bonus_yahtzees
+            score.bonus_yahtzees += 1
+        score.save()
+
     if (action == 'setOnes'):
         #First we check that the field is empty, so that data is not overwritten
         if (score.ones is None):
             #Then the calculated value based on the dice is saved to the score
             score.ones = hand.sumOnes()
-            #For Joker rules, we need to check if this is a bonus yahtzee
-            if (hand.yahtzee_flag == 1 and hand.yahtzee() == 50 ):
-                #If so, we increment the number of bonus_yahtzees
-                score.bonus_yahtzees += 1
-            score.save()
-            #Next we reset the dice and decrease the number of rem_rounds by 1
-            hand.roll_count = 2
-            hand.rem_rounds -= 1
+            bonusYahtzee()
             hand.init()
-            #Because hand.init() saves we do not need to do so here
+
+    if (action == 'setTwos'):
+        #First we check that the field is empty, so that data is not overwritten
+        if (score.twos is None):
+            #Then the calculated value based on the dice is saved to the score
+            score.twos = hand.sumTwos()
+            bonusYahtzee()
+            hand.init()
+
+    if (action == 'setThrees'):
+        #First we check that the field is empty, so that data is not overwritten
+        if (score.threes is None):
+            #Then the calculated value based on the dice is saved to the score
+            score.threes = hand.sumThrees()
+            bonusYahtzee()
+            hand.init()
+
+    if (action == 'setFours'):
+        #First we check that the field is empty, so that data is not overwritten
+        if (score.fours is None):
+            #Then the calculated value based on the dice is saved to the score
+            score.fours = hand.sumFours()
+            bonusYahtzee()
+            hand.init()
+
     if (action == 'setFives'):
         #First we check that the field is empty, so that data is not overwritten
         if (score.fives is None):
             #Then the calculated value based on the dice is saved to the score
             score.fives = hand.sumFives()
-            #For Joker rules, we need to check if this is a bonus yahtzee
-            if (hand.yahtzee_flag == 1 and hand.yahtzee() == 50 ):
-                #If so, we increment the number of bonus_yahtzees
-                score.bonus_yahtzees += 1
-            score.save()
-            #Next we reset the dice and decrease the number of rem_rounds by 1
-            hand.roll_count = 2
-            hand.rem_rounds -= 1
+            bonusYahtzee()
             hand.init()
-            #Because hand.init() saves we do not need to do so here
+
+    if (action == 'setSixes'):
+        #First we check that the field is empty, so that data is not overwritten
+        if (score.sixes is None):
+            #Then the calculated value based on the dice is saved to the score
+            score.sixes = hand.sumSixes()
+            bonusYahtzee()
+            hand.init()
+
+    if (action == 'setThreeOAK'):
+        #First we check that the field is empty, so that data is not overwritten
+        if (score.three_oak is None):
+            #Then the calculated value based on the dice is saved to the score
+            score.three_oak = hand.threeOAK()
+            bonusYahtzee()
+            hand.init()
+
+    if (action == 'setFourOAK'):
+        #First we check that the field is empty, so that data is not overwritten
+        if (score.four_oak is None):
+            #Then the calculated value based on the dice is saved to the score
+            score.four_oak = hand.fourOAK()
+            bonusYahtzee()
+            hand.init()
+
+    if (action == 'setFullHouse'):
+        #First we check that the field is empty, so that data is not overwritten
+        if (score.full_house is None):
+            #Then the calculated value based on the dice is saved to the score
+            score.full_house = hand.fullHouse()
+            bonusYahtzee()
+            hand.init()
+
+    if (action == 'setSmallStraight'):
+        #First we check that the field is empty, so that data is not overwritten
+        if (score.small_straight is None):
+            #Then the calculated value based on the dice is saved to the score
+            score.small_straight = hand.smallStraight()
+            bonusYahtzee()
+            hand.init()
+
+    if (action == 'setLargeStraight'):
+        #First we check that the field is empty, so that data is not overwritten
+        if (score.large_straight is None):
+            #Then the calculated value based on the dice is saved to the score
+            score.large_straight = hand.largeStraight()
+            bonusYahtzee()
+            hand.init()
 
     if (action == 'setYahtzee'):
         #First we check that the field is empty, so that data is not overwritten
@@ -60,50 +125,16 @@ def action(request, gameid, action):
                 hand.yahtzee_flag = 1
             else:
                 hand.yahtzee_flag = 0
-            #Next we reset the dice and decrease the number of rem_rounds by 1
-            hand.roll_count = 2
-            hand.rem_rounds -= 1
+            #Finally we reset the dice
             hand.init()
 
-    if (action == 'setTwos'):
-        if (score.twos is None):
-            score.twos = hand.sumTwos()
-            score.save()
-            game.rem_rounds -= 1
-            game.save()
-            print("setTwos called")
-
-    if (action == 'setThrees'):
-        if (score.threes is None):
-            score.threes = hand.sumThrees()
-            score.save()
-            game.rem_rounds -= 1
-            game.save()
-            print("setThrees called")
-
-    if (action == 'setFours'):
-        if (score.fours is None):
-            score.fours = hand.sumFours()
-            score.save()
-            game.rem_rounds -= 1
-            game.save()
-            print("setFours called")
-
-    if (action == 'setFives'):
-        if (score.fives is None):
-            score.fives = hand.sumFives()
-            score.save()
-            game.rem_rounds -= 1
-            game.save()
-            print("setFives called")
-
-    if (action == 'setSixes'):
-        if (score.sixes is None):
-            score.sixes = hand.sumSixes()
-            score.save()
-            game.rem_rounds -= 1
-            game.save()
-            print("setSixes called")
+    if (action == 'setChance'):
+        #First we check that the field is empty, so that data is not overwritten
+        if (score.chance is None):
+            #Then the calculated value based on the dice is saved to the score
+            score.chance = hand.chance()
+            bonusYahtzee()
+            hand.init()
 
     context = {'game':game, 'hand':hand, 'score':score}
     return render(request, 'game.html', context)
