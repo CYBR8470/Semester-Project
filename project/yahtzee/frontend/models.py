@@ -216,4 +216,12 @@ class Score(models.Model):
         upper_bonus = 0
         if (upper >= 63):
             upper_bonus = 35
-        return upper + upper_bonus
+        lower = 0
+        if (self.three_oak is not None): lower +=self.three_oak
+        if (self.four_oak is not None): lower +=self.four_oak
+        if (self.full_house is not None): lower +=self.full_house
+        if (self.small_straight is not None): lower +=self.small_straight
+        if (self.large_straight is not None): lower +=self.large_straight
+        if (self.yahtzee is not None): lower +=self.yahtzee
+        if (self.chance is not None): lower +=self.chance
+        return upper + upper_bonus + lower
