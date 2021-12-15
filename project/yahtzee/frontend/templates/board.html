@@ -62,19 +62,23 @@
     <body>
         <div class="window">
             <div class="gamebox">
-                <div>Click Dice to Save:</div>
-                <div id="d1" class="die">{{hand.d1}}</div>
-                <div id="d2" class="die">{{hand.d2}}</div>
-                <div id="d3" class="die">{{hand.d3}}</div>
-                <div id="d4" class="die">{{hand.d4}}</div>
-                <div id="d5" class="die">{{hand.d5}}</div>
-                <div>
-                  {% if hand.roll_count == 0 or hand.rem_rounds == 0 %}
+                {% if hand.rem_rounds < 0 %}
+                  <h1>Game Over!</h1>
+                  <h1>Final Score: {{score.sumValues}}</h1>
+                {% else %}
+                  <h1>Select Dice To Save:</h1>
+                  <div id="d1" class="die">{{hand.d1}}</div>
+                  <div id="d2" class="die">{{hand.d2}}</div>
+                  <div id="d3" class="die">{{hand.d3}}</div>
+                  <div id="d4" class="die">{{hand.d4}}</div>
+                  <div id="d5" class="die">{{hand.d5}}</div>
+                  <p id="rollCount">Re-Rolls Remaining: {{hand.roll_count}}</p>
+                  <p id="roundCount">Remaining Rounds: {{hand.rem_rounds}}</p>
+                  {% if hand.roll_count == 0 %}
                   {% else %}
                     <button id="rollDice">Roll the dice!</button>
                   {% endif %}
-                </div>
-                <button><a href="{% url 'board' game.game_id %}">Refresh Screen</a></button>
+                {% endif %}
             </div>
             <div class="scorebox">
                 <div class="score">Player:{{score.player}}</div><br>
