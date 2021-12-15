@@ -60,7 +60,7 @@
         </style>
     </head>
     <body>
-        <div class="window">
+        <div class="window" id="param">
             <div class="gamebox">
                 {% if hand.rem_rounds < 0 %}
                   <h1>Game Over!</h1>
@@ -73,7 +73,7 @@
                   <div id="d4" class="die">{{hand.d4}}</div>
                   <div id="d5" class="die">{{hand.d5}}</div>
                   <p id="rollCount">Re-Rolls Remaining: {{hand.roll_count}}</p>
-                  <p id="roundCount">Remaining Rounds: {{hand.rem_rounds}}</p>
+                  <p id="roundCount">Rounds Remaining: {{hand.rem_rounds}}</p>
                   {% if hand.roll_count == 0 %}
                   {% else %}
                     <button id="rollDice">Roll the dice!</button>
@@ -327,7 +327,7 @@
                     var singleDice = $('#'+value.id)[0]
                     singleDice.innerText = data['d'+(index +1)];
                     $('#rollCount')[0].innerText = "Roll Count: " + data['roll_count'];
-                    location.reload();
+                    $("#param").load("#param");
                 });
                 }
             });
