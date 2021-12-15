@@ -47,25 +47,34 @@
               font-size: 3vh;
               display: inline-block;
             }
+            .playerboxfield{
+              height: 5vh;
+              width: 15vw;
+              border: 1px solid black;
+              text-align: center;
+              line-height: 5vh;
+              font-size: 3vh;
+              display: inline-block;
+              margin: 1vh 1vw;
+            }
         </style>
     </head>
     <body>
         <div class="window">
             <div class="gamebox">
-                <h1>Game Id: {{ game.game_id }}</h1>
-                <h1>Host: {{ game.host }}</h1>
-                <h1>Join Code: {{ game.join_code }}</h1>
-                <h1>Is Public: {{ game.is_public }}</h1>
-                <h1>Is Open: {{ game.is_open }}</h1>
+                <div>Click Dice to Save:</div>
                 <div id="d1" class="die">{{hand.d1}}</div>
                 <div id="d2" class="die">{{hand.d2}}</div>
                 <div id="d3" class="die">{{hand.d3}}</div>
                 <div id="d4" class="die">{{hand.d4}}</div>
                 <div id="d5" class="die">{{hand.d5}}</div>
-                <p id="rollCount">Roll Count: {{hand.roll_count}}</p>
-                <p id="roundCount">Remaining Rounds: {{hand.rem_rounds}}</p>
+                <div>
+                  {% if hand.roll_count == 0 or hand.rem_rounds == 0 %}
+                  {% else %}
+                    <button id="rollDice">Roll the dice!</button>
+                  {% endif %}
+                </div>
                 <button><a href="{% url 'board' game.game_id %}">Refresh Screen</a></button>
-                <button id="rollDice">Roll the dice!</button>
             </div>
             <div class="scorebox">
                 <div class="score">Player:{{score.player}}</div><br>
@@ -241,6 +250,14 @@
                 <div>Current Score:{{score.sumValues}}</div>
             </div>
             <div class="playerbox">
+                {% for players in game.players.all %}
+                  <div class="playerboxfield">{{players.player}}</div>
+                {% endfor %}
+                <br>
+                {% for scores in game.scores.all %}
+                  <div class="playerboxfield">{{scores.sumValues}}</div>
+                {% endfor %}
+                <br>
                 <input type="hidden" id="playerId" value="{{ score.player.id }}" />
                 <input type="hidden" id="gameId" value="{{ game.game_id }}" />
                 <a href="{% url 'end' %}">End Game |</a>
@@ -306,6 +323,7 @@
                     var singleDice = $('#'+value.id)[0]
                     singleDice.innerText = data['d'+(index +1)];
                     $('#rollCount')[0].innerText = "Roll Count: " + data['roll_count'];
+                    location.reload();
                 });
                 }
             });

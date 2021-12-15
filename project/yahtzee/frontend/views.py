@@ -166,6 +166,7 @@ def gameSetup(request, choice):
             player_hand.save()
         finally:
             hand = player_hand
+            game.players.add(hand)
         # Pull associated scoreboard
         try:
             player_score = Score.objects.get(game=hosted_game, player=request.user)
@@ -174,6 +175,8 @@ def gameSetup(request, choice):
             player_score.save()
         finally:
             score = player_score
+            game.scores.add(score)
+
         context = {'choice': choice, 'game':game, 'hand':hand, 'score':score}
         return render(request, "game.html", context)
 
