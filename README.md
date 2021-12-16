@@ -15,10 +15,14 @@ After this command completes, then in the same terminal run the following comman
 docker-compose up
 ```
 After the project builds and is deployed locally, you should see text in the terminal window that says "Starting development server at http://0.0.0.0:8000/".
-Once that appears, navigate to "http://localhost:8000" in your browser of choice to see the app running locally on your machine.
+Once that appears, navigate to "http://localhost:8000" in your browser of choice to see the app running locally on your machine. You may need to add localhost to allowed_host in settings.py.
 
 ## Getting Started
-There is currently little to do within the environment. There is a landing page and a baseline register/login/logout function. The site uses open source authorization mechanisms that check against simple passwords. There is currently no error message for a bad password, but if you use a strong or recommended password, it should work and register you. It will attempt to redirect you to a nonexistent account page, but please return to localhost:8000 and there should now be options to host or join a game. Clicking on either will send you to the related page, but neither has any data presently. If you log out and try to manually go to /game/host or /game/join, it will prompt you to log in.
+Because unauthenticated users can only access the index page, the first thing you'll want to do is register an account. The registration process runs string input validation and also checks your password strength, so use a reasonably secure password or it will error out. 
+
+Once you have registered, you will be able to host public games as well as join games in progress. If other people have access to your deployment, they will be able to join your hosted game and vice versa. 
+
+Once you have hosted or joined a game, the game page runs basically like yahtzee, but players are able to play asynchronously, so you won't have to wait on other players turns. You will see what round they are on and their current score as well as your own!
 
 # License
 MIT License
