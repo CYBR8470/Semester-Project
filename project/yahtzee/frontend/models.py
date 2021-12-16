@@ -171,7 +171,7 @@ class Hand(models.Model):
       if (count > 3):
           if (values[0]+1 == values[1] and values[1]+1 == values[2] and values[2]+1 == values[3]):
               return 30
-          elif (values[1]+1 == values[2] and values[2]+1 == values[3] and values[3]+1 == dice[4]):
+          elif (values[1]+1 == values[2] and values[2]+1 == values[3] and values[3]+1 == values[4]):
               return 30
           #For the Joker Rules, we need to check if the yahtzee field has already been filled
           elif (self.yahtzee_flag is not None and self.yahtzee == 50):
