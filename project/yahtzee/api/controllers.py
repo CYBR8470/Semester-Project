@@ -33,7 +33,7 @@ class  GameDetail(APIView):
         game = self.get_object(pk)
         serializer = GameSerializer(game)
         return Response(serializer.data)
-    
+
     def put(self, request, pk, format=None):
         game = self.get_object(pk)
         serializer = GameSerializer(game, data=request.data)
@@ -69,18 +69,13 @@ class BoardRollDice(APIView):
         except Hand.DoesNotExist:
             hand = Hand(game=game, player=player)
             hand.save()
-        hand.d1 = hand.rolldice(int(data['d1']))
-        hand.d2 = hand.rolldice(int(data['d2']))
-        hand.d3 = hand.rolldice(int(data['d3']))
-        hand.d4 = hand.rolldice(int(data['d4']))
-        hand.d5 = hand.rolldice(int(data['d5']))
-        hand.reduceRC()
-        hand.save()
+        if (hand.rem_rounds >= 0 and hand.roll_count > 0):
+            hand.d1 = hand.rolldice(int(data['d1']))
+            hand.d2 = hand.rolldice(int(data['d2']))
+            hand.d3 = hand.rolldice(int(data['d3']))
+            hand.d4 = hand.rolldice(int(data['d4']))
+            hand.d5 = hand.rolldice(int(data['d5']))
+            hand.reduceRC()
+            hand.save()
         serializer = HandSerializer(hand)
         return Response(serializer.data)
-        
-        
-
-
-
-

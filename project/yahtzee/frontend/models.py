@@ -168,18 +168,16 @@ class Hand(models.Model):
             values.append(x)
             count += 1
       values.sort()
-      if (count > 2):
-          if (values[0]+1 == values[1] and values[1]+1 == values[2] and values[2]+1 == values[3]):
-              return 30
-          elif (values[1]+1 == values[2] and values[2]+1 == values[3] and values[3]+1 == dice[4]):
-              return 30
-          #For the Joker Rules, we need to check if the yahtzee field has already been filled
-          elif (self.yahtzee_flag is not None and self.yahtzee == 50):
-              return 30
-          else:
-              return 0
+      if (count > 3 and values[0]+1 == values[1] and values[1]+1 == values[2] and values[2]+1 == values[3]):
+          return 30
+      elif (count > 4 and values[1]+1 == values[2] and values[2]+1 == values[3] and values[3]+1 == values[4]):
+          return 30
+      #For the Joker Rules, we need to check if the yahtzee field has already been filled
+      elif (self.yahtzee_flag is not None and self.yahtzee == 50):
+          return 30
       else:
-        return 0
+          return 0
+
     #Large straight = 40
     #Creates a sorted array of the 5 dice values, then returns 40 if a large straight or zero.
     def largeStraight (self):

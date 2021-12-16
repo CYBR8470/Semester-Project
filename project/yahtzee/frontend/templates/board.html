@@ -6,54 +6,75 @@
         <meta http-equiv = "refresh" content="30; url = {% url 'board' game.game_id %}" />
         <style>
             .window{
-                height: 90vh;
+                height: 81vh;
                 width: 98vw;
                 display: grid;
                 grid-auto-rows: 9vh;
                 grid-auto-columns: 9.8vw;
             }
             .gamebox{
-                grid-column: 1 / 9;
-                grid-row: 1 / 9;
+                grid-column: 1 / 6;
+                grid-row: 1 / 6;
                 border: 3px solid black;
+                line-height: min(4vh,4vw);
+                font-size: min(2.5vh,2.5vw);
             }
             .scorebox{
-                grid-column: 9 / 11;
-                grid-row: 1 / 9;
+                grid-column: 6 / 11;
+                grid-row: 1 / 6;
                 border: 3px solid black;
             }
             .playerbox{
                 grid-column: 1 / 11;
-                grid-row: 9 / 11;
+                grid-row: 6 / 10;
                 border: 3px solid black;
             }
             .die {
-              height: 9vh;
-              width: 9vh;
+              height: min(9vh,9vw);
+              width: min(9vh,9vw);
               border: 1px solid black;
               text-align: center;
-              line-height: 9vh;
-              font-size: 9vh;
+              line-height: min(9vh,9vw);
+              font-size: min(9vh,9vw);
               display: inline-block;
             }
             .die-selected {
                 border: 3px solid green;
             }
-            .score {
+            .scorename {
               height: 3vh;
-              width: auto;
+              width: 16vw;
               text-align: center;
               line-height: 3vh;
-              font-size: 3vh;
+              font-size: min(2.5vh,2.5vw);
               display: inline-block;
             }
-            .playerboxfield{
+            .score {
+              height: min(3vh,3vw);
+              width: min(3vh,3vw);
+              text-align: center;
+              line-height: min(3vh,3vw);
+              font-size: min(2.5vh,2.5vw);
+              display: inline-block;
+              margin: .1vh .1vw;
+            }
+            .playerboxplayer{
+              height: 8vh;
+              width: 15vw;
+              border: 1px solid black;
+              text-align: center;
+              line-height: min(4vh, 4vw);
+              font-size: min(2.5vh, 2.5vw);
+              display: inline-block;
+              margin: 1vh 1vw;
+            }
+            .playerboxscore{
               height: 5vh;
               width: 15vw;
               border: 1px solid black;
               text-align: center;
-              line-height: 5vh;
-              font-size: 3vh;
+              line-height: min(5vh,5vw);
+              font-size: min(2.5vh,2.5vw);
               display: inline-block;
               margin: 1vh 1vw;
             }
@@ -66,14 +87,15 @@
                   <h1>Game Over!</h1>
                   <h1>Final Score: {{score.sumValues}}</h1>
                 {% else %}
-                  <h1>Select Dice To Save:</h1>
+                  <b>Select Dice To Save:</b><br>
                   <div id="d1" class="die">{{hand.d1}}</div>
                   <div id="d2" class="die">{{hand.d2}}</div>
                   <div id="d3" class="die">{{hand.d3}}</div>
                   <div id="d4" class="die">{{hand.d4}}</div>
                   <div id="d5" class="die">{{hand.d5}}</div>
-                  <p id="rollCount">Re-Rolls Remaining: {{hand.roll_count}}</p>
-                  <p id="roundCount">Rounds Remaining: {{hand.rem_rounds}}</p>
+                  <br><b id="rollCount">Re-Rolls Remaining: {{hand.roll_count}}</b>
+                  <br><b id="roundCount">Rounds Remaining: {{hand.rem_rounds}}</b>
+                  <br>
                   {% if hand.roll_count == 0 %}
                   {% else %}
                     <button id="rollDice">Roll the dice!</button>
@@ -81,193 +103,191 @@
                 {% endif %}
             </div>
             <div class="scorebox">
-                <div class="score">Player:{{score.player}}</div><br>
-                <div class="score">Ones:</div>
+                <div class="scorename">{{score.player}}</div>
+                <br>
+                <div class="scorename">Ones:</div>
+                <button>
                   {% if score.ones == null %}
-                    <button>
-                      <a class="score" href="{% url 'action' game.game_id 'setOnes' %}">
-                        {{hand.sumOnes}}
-                      </a>
-                    </button>
+                    <a class="score" href="{% url 'action' game.game_id 'setOnes' %}">
+                      {{hand.sumOnes}}
+                    </a>
                   {% else %}
-                    <div class="score">
-                      {{score.ones}}
-                    </div>
+                    <a class="score">{{score.ones}}</a>
                   {% endif %}
-                <br>
-                <div class="score">Twos:</div>
-                  {% if score.twos == null %}
-                    <button>
-                      <a class="score" href="{% url 'action' game.game_id 'setTwos' %}">
-                        {{hand.sumTwos}}
-                      </a>
-                    </button>
-                  {% else %}
-                    <div class="score">
-                      {{score.twos}}
-                    </div>
-                  {% endif %}
-                <br>
-                <div class="score">Threes:</div>
-                  {% if score.threes == null %}
-                    <button>
-                      <a class="score" href="{% url 'action' game.game_id 'setThrees' %}">
-                        {{hand.sumThrees}}
-                      </a>
-                    </button>
-                  {% else %}
-                    <div class="score">
-                      {{score.threes}}
-                    </div>
-                  {% endif %}
-                <br>
-                <div class="score">Fours:</div>
-                  {% if score.fours == null %}
-                    <button>
-                      <a class="score" href="{% url 'action' game.game_id 'setFours' %}">
-                        {{hand.sumFours}}
-                      </a>
-                    </button>
-                  {% else %}
-                    <div class="score">
-                      {{score.fours}}
-                    </div>
-                  {% endif %}
-                <br>
-                <div class="score">Fives:</div>
-                  {% if score.fives == null %}
-                    <button>
-                      <a class="score" href="{% url 'action' game.game_id 'setFives' %}">
-                        {{hand.sumFives}}
-                      </a>
-                    </button>
-                  {% else %}
-                    <div class="score">
-                      {{score.fives}}
-                    </div>
-                  {% endif %}
-                <br>
-                <div class="score">Sixes:</div>
-                  {% if score.sixes == null %}
-                    <button>
-                      <a class="score" href="{% url 'action' game.game_id 'setSixes' %}">
-                        {{hand.sumSixes}}
-                      </a>
-                    </button>
-                  {% else %}
-                    <div class="score">
-                      {{score.sixes}}
-                    </div>
-                  {% endif %}
-                <br>
-                <div class="score">Three of a Kind:</div>
+                </button>
+                <div class="scorename">3 of a Kind:</div>
+                <button>
                   {% if score.three_oak == null %}
-                    <button>
-                      <a class="score" href="{% url 'action' game.game_id 'setThreeOAK' %}">
-                        {{hand.threeOAK}}
-                      </a>
-                    </button>
+                    <a class="score" href="{% url 'action' game.game_id 'setThreeOAK' %}">
+                      {{hand.threeOAK}}
+                    </a>
                   {% else %}
-                    <div class="score">
-                      {{score.three_oak}}
-                    </div>
+                    <a class="score">{{score.three_oak}}</a>
                   {% endif %}
+                </button>
                 <br>
-                <div class="score">Four of a Kind:</div>
+
+                <div class="scorename">Twos:</div>
+                <button>
+                  {% if score.twos == null %}
+                    <a class="score" href="{% url 'action' game.game_id 'setTwos' %}">
+                      {{hand.sumTwos}}
+                    </a>
+                  {% else %}
+                    <a class="score">{{score.twos}}</a>
+                  {% endif %}
+                </button>
+                <div class="scorename">4 of a Kind:</div>
+                <button>
                   {% if score.four_oak == null %}
-                    <button>
-                      <a class="score" href="{% url 'action' game.game_id 'setFourOAK' %}">
-                        {{hand.fourOAK}}
-                      </a>
-                    </button>
+                    <a class="score" href="{% url 'action' game.game_id 'setFourOAK' %}">
+                      {{hand.fourOAK}}
+                    </a>
                   {% else %}
-                    <div class="score">
-                      {{score.four_oak}}
-                    </div>
+                    <a class="score">{{score.four_oak}}</a>
                   {% endif %}
+                </button>
                 <br>
-                <div class="score">Full House:</div>
+
+                <div class="scorename">Threes:</div>
+                <button>
+                  {% if score.threes == null %}
+                    <a class="score" href="{% url 'action' game.game_id 'setThrees' %}">
+                      {{hand.sumThrees}}
+                    </a>
+                  {% else %}
+                    <a class="score">{{score.threes}}</a>
+                  {% endif %}
+                </button>
+                <div class="scorename">Full House:</div>
+                <button>
                   {% if score.full_house == null %}
-                    <button>
-                      <a class="score" href="{% url 'action' game.game_id 'setFullHouse' %}">
-                        {{hand.fullHouse}}
-                      </a>
-                    </button>
+                    <a class="score" href="{% url 'action' game.game_id 'setFullHouse' %}">
+                      {{hand.fullHouse}}
+                    </a>
                   {% else %}
-                    <div class="score">
+                    <a class="score">
                       {{score.full_house}}
-                    </div>
+                    </a>
                   {% endif %}
+                </button>
                 <br>
-                <div class="score">Small Straight:</div>
+
+                <div class="scorename">Fours:</div>
+                <button>
+                  {% if score.fours == null %}
+                    <a class="score" href="{% url 'action' game.game_id 'setFours' %}">
+                      {{hand.sumFours}}
+                    </a>
+                  {% else %}
+                    <a class="score">
+                      {{score.fours}}
+                    </a>
+                  {% endif %}
+                </button>
+                <div class="scorename">Small Straight:</div>
+                <button>
                   {% if score.small_straight == null %}
-                    <button>
-                      <a class="score" href="{% url 'action' game.game_id 'setSmallStraight' %}">
-                        {{hand.smallStraight}}
-                      </a>
-                    </button>
+                    <a class="score" href="{% url 'action' game.game_id 'setSmallStraight' %}">
+                      {{hand.smallStraight}}
+                    </a>
                   {% else %}
-                    <div class="score">
+                    <a class="score">
                       {{score.small_straight}}
-                    </div>
+                    </a>
                   {% endif %}
+                </button>
                 <br>
-                <div class="score">Large Straight:</div>
+
+                <div class="scorename">Fives:</div>
+                <button>
+                  {% if score.fives == null %}
+                    <a class="score" href="{% url 'action' game.game_id 'setFives' %}">
+                      {{hand.sumFives}}
+                    </a>
+                  {% else %}
+                    <a class="score">
+                      {{score.fives}}
+                    </a>
+                  {% endif %}
+                </button>
+                <div class="scorename">Large Straight:</div>
+                <button>
                   {% if score.large_straight == null %}
-                    <button>
-                      <a class="score" href="{% url 'action' game.game_id 'setLargeStraight' %}">
-                        {{hand.largeStraight}}
-                      </a>
-                    </button>
+                    <a class="score" href="{% url 'action' game.game_id 'setLargeStraight' %}">
+                      {{hand.largeStraight}}
+                    </a>
                   {% else %}
-                    <div class="score">
+                    <a class="score">
                       {{score.large_straight}}
-                    </div>
+                    </a>
                   {% endif %}
+                </button>
                 <br>
-                <div class="score">Yahtzee:</div>
+
+                <div class="scorename">Sixes:</div>
+                <button>
+                  {% if score.sixes == null %}
+                    <a class="score" href="{% url 'action' game.game_id 'setSixes' %}">
+                      {{hand.sumSixes}}
+                    </a>
+                  {% else %}
+                    <a class="score">
+                      {{score.sixes}}
+                    </a>
+                  {% endif %}
+                </button>
+                <div class="scorename">Yahtzee:</div>
+                <button>
                   {% if score.yahtzee == null %}
-                    <button>
-                      <a class="score" href="{% url 'action' game.game_id 'setYahtzee' %}">
-                        {{hand.yahtzee}}
-                      </a>
-                    </button>
+                    <a class="score" href="{% url 'action' game.game_id 'setYahtzee' %}">
+                      {{hand.yahtzee}}
+                    </a>
                   {% else %}
-                    <div class="score">
+                    <a class="score">
                       {{score.yahtzee}}
-                    </div>
+                    </a>
                   {% endif %}
+                </button>
                 <br>
-                <div class="score">Chance:</div>
+
+                <div class="scorename">Chance:</div>
+                <button>
                   {% if score.chance == null %}
-                    <button>
-                      <a class="score" href="{% url 'action' game.game_id 'setChance' %}">
-                        {{hand.chance}}
-                      </a>
-                    </button>
+                    <a class="score" href="{% url 'action' game.game_id 'setChance' %}">
+                      {{hand.chance}}
+                    </a>
                   {% else %}
-                    <div class="score">
+                    <a class="score">
                       {{score.chance}}
-                    </div>
+                    </a>
                   {% endif %}
-                <br>
-                <div>Current Score:{{score.sumValues}}</div>
+                </button>
+                <div class="scorename">Current Score:</div>
+                <button><a class="score">{{score.sumValues}}</a></button>
             </div>
             <div class="playerbox">
+                <br>
                 {% for players in game.players.all %}
-                  <div class="playerboxfield">{{players.player}}</div>
+                  <div class="playerboxscore">{{players.player}}</div><br>
+                  <div class="playerboxplayer">Remaining Rounds: {{players.rem_rounds}}</div>
                 {% endfor %}
                 <br>
                 {% for scores in game.scores.all %}
-                  <div class="playerboxfield">{{scores.sumValues}}</div>
+                  <div class="playerboxscore">
+                    Score: {{scores.sumValues}}
+                  </div>
                 {% endfor %}
                 <br>
                 <input type="hidden" id="playerId" value="{{ score.player.id }}" />
                 <input type="hidden" id="gameId" value="{{ game.game_id }}" />
-                <a href="{% url 'end' %}">End Game |</a>
-                <a href="/">Home</a>
             </div>
         </div>
+        {% if game.host == hand.player and hand.rem_rounds < 0 %}
+          <a href="{% url 'end' %}">End Game |</a>
+        {% endif %}
+        <a href="/">Home</a>
+
         <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
         <script type="text/JavaScript">
 
