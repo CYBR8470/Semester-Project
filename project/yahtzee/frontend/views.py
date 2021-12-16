@@ -166,6 +166,8 @@ def gameSetup(request, choice):
             player_hand.save()
         finally:
             hand = player_hand
+            hand.init()
+            game.players.add(hand)
         # Pull associated scoreboard
         try:
             player_score = Score.objects.get(game=hosted_game, player=request.user)
@@ -174,6 +176,8 @@ def gameSetup(request, choice):
             player_score.save()
         finally:
             score = player_score
+            game.scores.add(score)
+
         context = {'choice': choice, 'game':game, 'hand':hand, 'score':score}
         return render(request, "game.html", context)
 
@@ -184,7 +188,12 @@ def join(request, gameid):
         game = Game.objects.get(game_id=gameId, active=True, is_open=True)
         # Double check there isn't already hand and score models for current player
         hand = Hand.objects.get_or_create(game=game, player=request.user)
+        hand.init()
+        hand.save()
+        game.players.add(hand)
         score = Score.objects.get_or_create(game=game, player=request.user)
+        score.save()
+        game.players.add(score)
     except Game.DoesNotExist:
         raise Http404("Given game not found...")
 
@@ -196,9 +205,11 @@ def join(request, gameid):
 def endgame(request):
     try:
         game_to_end = Game.objects.get(host=request.user, active=True)
-        game_to_end.is_open = False
-        game_to_end.active = False
-        game_to_end.save()
+        hand = Hand.objects.get(game=game_to_end, player=request.user)
+        score = Score.objects.get(game=game_to_end, player=request.user)
+        game_to_end.delete()
+        hand.delete()
+        score.delete()
     except Game.DoesNotExist:
         return redirect('index')
     return render(request, 'index.html')
