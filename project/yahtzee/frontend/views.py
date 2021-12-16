@@ -187,13 +187,20 @@ def join(request, gameid):
         gameId = uuid.UUID(gameid)
         game = Game.objects.get(game_id=gameId, active=True, is_open=True)
         # Double check there isn't already hand and score models for current player
-        hand = Hand.objects.get_or_create(game=game, player=request.user)
+        try:
+            hand = Hand.objects.get(game=game, player=request.user)
+        except Hand.DoesNotExist:
+            hand = Hand(game=game, player=request.user)
+            hand.save()
         hand.init()
         hand.save()
         game.players.add(hand)
-        score = Score.objects.get_or_create(game=game, player=request.user)
-        score.save()
-        game.players.add(score)
+        try:
+            score = Score.objects.get(game=game, player=request.user)
+        except Score.DoesNotExist:
+            score = Score(game=game, player=request.user)
+            score.save()
+        game.scores.add(score)
     except Game.DoesNotExist:
         raise Http404("Given game not found...")
 
