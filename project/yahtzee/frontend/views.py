@@ -15,7 +15,7 @@ def index(request):
     context = {}
     permissions = request.user.has_perm('perms.game.can_delete')
     nameValuePair1 = {'Name':'is_authenticated', 'Value': is_authenticated }
-    nameValuePair2 = {'Name':'is_game_admin', 'Value': is_game_admin }   
+    nameValuePair2 = {'Name':'is_game_admin', 'Value': is_game_admin }
     context['is_game_admin'] = is_game_admin
     return render(request, 'index.html', context)
 
@@ -177,10 +177,9 @@ def gameSetup(request, choice):
             player_hand = Hand.objects.get(game=hosted_game, player=request.user)
         except Hand.DoesNotExist:
             player_hand = Hand(game=hosted_game, player=request.user)
-            player_hand.save()
+            player_hand.init()
         finally:
             hand = player_hand
-            hand.init()
             game.players.add(hand)
         # Pull associated scoreboard
         try:
@@ -205,9 +204,8 @@ def join(request, gameid):
             hand = Hand.objects.get(game=game, player=request.user)
         except Hand.DoesNotExist:
             hand = Hand(game=game, player=request.user)
-            hand.save()
-        hand.init()
-        hand.save()
+            hand.init()
+
         game.players.add(hand)
         try:
             score = Score.objects.get(game=game, player=request.user)
