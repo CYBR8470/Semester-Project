@@ -4,14 +4,28 @@ from .models import Game, Hand, Score
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponse, Http404
 import uuid
 import cgi
 
 def index(request):
     is_authenticated = request.user.is_authenticated
-    context = {'authenticated': is_authenticated}
+    is_game_admin = request.user.groups.filter(name='game_admin').exists()
+    context = {}
+    permissions = request.user.has_perm('perms.game.can_delete')
+    nameValuePair1 = {'Name':'is_authenticated', 'Value': is_authenticated }
+    nameValuePair2 = {'Name':'is_game_admin', 'Value': is_game_admin }   
+    context['is_game_admin'] = is_game_admin
     return render(request, 'index.html', context)
+
+def gameAdmin(request):
+    is_game_admin = request.user.groups.filter(name='game_admin').exists()
+    context = {}
+    context['is_game_admin'] = is_game_admin
+    if is_game_admin:
+        context['games'] = Game.objects.all()
+    return render(request, 'game_admin.html', context)
 
 @login_required(login_url='/accounts/login')
 def action(request, gameid, action):

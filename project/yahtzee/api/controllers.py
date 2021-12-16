@@ -42,8 +42,16 @@ class  GameDetail(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
     
-    def delete(self, request, pk, format=None):
-        game = self.get_object(pk)
+    def delete(self, request, gameid, format=None):
+        gameId = uuid.UUID(gameid)
+        is_game_admin = request.user.groups.filter(name='game_admin').exists()
+        if is_game_admin == False:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        try:
+            game = Game.objects.get(game_id=gameId)
+        except Game.DoesNotExist:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+            
         game.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 

@@ -26,6 +26,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('join/<str:gameid>', views.join, name='join'),
     path('gameSetup/<str:choice>', views.gameSetup, name='gameSetup'),
+    path('gameAdmin', views.gameAdmin, name='gameAdmin'),
     path('action/<str:gameid>/<str:action>', views.action, name='action'),
     path('board/<str:gameid>', views.board, name='board'),
     path('end/', views.endgame, name='end'),
@@ -33,5 +34,6 @@ urlpatterns = [
     path('register', views.register_request, name='register'),
     path('admin/', admin.site.urls),
     path('api/games', controllers.GameList.as_view(), name='games'),
+    path('api/games/<str:gameid>', controllers.GameDetail.as_view(), name='gameDetail'),
     path('api/rolldice', controllers.BoardRollDice.as_view()),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

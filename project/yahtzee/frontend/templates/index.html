@@ -14,11 +14,18 @@
     {% if user.is_authenticated %}
     <h3>Welcome {{ user.get_username }}!</h3>
     <a href="{% url 'gameSetup' 'host' %}">Host Game</a>
+    <br>
     <a id="join_game" href="#">Join Game</a>
+    <br>
+    {% if is_game_admin %}
+    <a href="{% url 'gameAdmin' %}">Game Administration</a>
+    {% endif %}
 
-    <!-- <table style="display:hidden; " id="results">
-        <tr><th>Game Id</th><th>Game Host</th><th>URL</th></tr>
-    </table> -->
+    {% if perms.game.can_delete %}
+        <h1>YOU CAN DELETE THESE BITCHES</h1>
+    {% endif %}
+
+
     <p><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></p>
     <div id="results"></div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
