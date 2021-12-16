@@ -281,12 +281,13 @@
                 <br>
                 <input type="hidden" id="playerId" value="{{ score.player.id }}" />
                 <input type="hidden" id="gameId" value="{{ game.game_id }}" />
+                {% if game.host == hand.player and hand.rem_rounds < 0 %}
+                    <a href="{% url 'end' %}">End Game |</a>
+                {% endif %}
+                <a href="/">Home</a>
             </div>
         </div>
-        {% if game.host == hand.player and hand.rem_rounds < 0 %}
-          <a href="{% url 'end' %}">End Game |</a>
-        {% endif %}
-        <a href="/">Home</a>
+        
 
         <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
         <script type="text/JavaScript">
