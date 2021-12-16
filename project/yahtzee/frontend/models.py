@@ -161,14 +161,23 @@ class Hand(models.Model):
     #Creates a sorted array of the 5 dice values, then returns 30 if a small straight or zero.
     def smallStraight (self):
       dice = [self.d1,self.d2,self.d3,self.d4,self.d5]
-      dice.sort()
-      if (dice[0]+1 == dice[1] and dice[1]+1 == dice[2] and dice[2]+1 == dice[3]):
-        return 30
-      elif (dice[1]+1 == dice[2] and dice[2]+1 == dice[3] and dice[3]+1 == dice[4]):
-        return 30
-      #For the Joker Rules, we need to check if the yahtzee field has already been filled
-      elif (self.yahtzee_flag is not None and self.yahtzee == 50):
-        return 30
+      values = []
+      count = 0
+      for x in dice:
+          if x not in values:
+            values.append(x)
+            count += 1
+      values.sort()
+      if (count > 2):
+          if (values[0]+1 == values[1] and values[1]+1 == values[2] and values[2]+1 == values[3]):
+              return 30
+          elif (values[1]+1 == values[2] and values[2]+1 == values[3] and values[3]+1 == dice[4]):
+              return 30
+          #For the Joker Rules, we need to check if the yahtzee field has already been filled
+          elif (self.yahtzee_flag is not None and self.yahtzee == 50):
+              return 30
+          else:
+              return 0
       else:
         return 0
     #Large straight = 40
