@@ -1,0 +1,88 @@
+{% extends 'base_generic.html' %}
+
+{% block title %}
+<title>Admin</title>
+{% endblock title %}
+
+{%  block content %}
+<h1><center>Game Admin</center></h1>
+
+{% if is_game_admin %}
+<table id="gameTable" class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Game Id</th>
+        <th scope="col">Host</th>
+        <th scope="col">Public/Private</th>
+        <th scope="col">Game Open</th>
+        <th scope="col">Game Active</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for game in games%}
+        <tr>
+          <th scope="row">{{ forloop.counter }}</th>
+          <td>{{ game.game_id }}</td>
+          <td>{{ game.host }}</td>
+          {% if game.is_public %}
+          <td>Public</td>
+          {% else %}
+          <td>Private</td>
+          {% endif %}
+          <td>{{ game.is_open }}</td>
+          <td>{{ game.active }}</td>
+          <td><a id="{{ game.game_id }}" class="delete" href="#">Delete</a></td>
+        </tr>
+
+      {% endfor %}
+    </tbody>
+  </table>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script type="text/JavaScript">
+
+  function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie != '') {
+          var cookies = document.cookie.split(';');
+          for (var i = 0; i < cookies.length; i++) {
+              var cookie = jQuery.trim(cookies[i]);
+              // Does this cookie string begin with the name we want?
+              if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+  }
+
+  function deleteGame(el){
+    var game_id = $(el)[0].id;
+    var _url = "../api/games/"+ game_id + "";
+    var csrftoken = getCookie('csrftoken');
+    $.ajax({
+              method: 'DELETE',
+              url: _url,
+              beforeSend: function(xhr, settings) {
+                  xhr.setRequestHeader("X-CSRFToken", csrftoken);
+              },
+              success: function(data, status){
+                $(".container").load("#gameTable");
+              }
+          });
+  }
+  $('.delete').click(function(){
+    var _this = $(this);
+    deleteGame(_this);
+  });
+  </script>
+  {% else %}
+  <center><h1>YOU ARE NOT AUTHORIZED TO MANAGE YAHTZEE GAMES.</h1></center>
+
+
+  {% endif %}
+
+
+{% endblock content %}
